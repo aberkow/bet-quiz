@@ -30243,7 +30243,7 @@
 	
 	var _HeaderBar2 = _interopRequireDefault(_HeaderBar);
 	
-	var _QuestionAnswerContainer = __webpack_require__(410);
+	var _QuestionAnswerContainer = __webpack_require__(409);
 	
 	var _QuestionAnswerContainer2 = _interopRequireDefault(_QuestionAnswerContainer);
 	
@@ -30256,37 +30256,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var actions = __webpack_require__(355);
-	
-	var Quiz = function (_Component) {
-	  _inherits(Quiz, _Component);
-	
-	  function Quiz(props) {
-	    _classCallCheck(this, Quiz);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Quiz).call(this, props));
-	  }
-	
-	  _createClass(Quiz, [{
-	    key: 'test',
-	    value: function test() {
-	      console.log(_quiz2.default);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_HeaderBar2.default, { open: this.props.isDrawerOpen }),
-	        _react2.default.createElement(_QuestionAnswerContainer2.default, { quiz: this.props.quiz })
-	      );
-	    }
-	  }]);
-	
-	  return Quiz;
-	}(_react.Component);
-	
-	;
 	
 	var quizArray = [{
 	  category: 'seating',
@@ -30350,7 +30319,36 @@
 	  chapel: 'Intimate, intellectual, participatory'
 	}];
 	
-	Quiz.defaultProps = quizArray;
+	var Quiz = function (_Component) {
+	  _inherits(Quiz, _Component);
+	
+	  function Quiz(props) {
+	    _classCallCheck(this, Quiz);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Quiz).call(this, props));
+	  }
+	
+	  _createClass(Quiz, [{
+	    key: 'test',
+	    value: function test() {
+	      console.log(_quiz2.default);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_HeaderBar2.default, { open: this.props.isDrawerOpen }),
+	        _react2.default.createElement(_QuestionAnswerContainer2.default, { quizArray: quizArray })
+	      );
+	    }
+	  }]);
+	
+	  return Quiz;
+	}(_react.Component);
+	
+	;
 	
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
@@ -30388,11 +30386,11 @@
 	
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 	
-	var _InfoDrawer = __webpack_require__(403);
+	var _InfoDrawer = __webpack_require__(401);
 	
 	var _InfoDrawer2 = _interopRequireDefault(_InfoDrawer);
 	
-	var _infoOutline = __webpack_require__(401);
+	var _infoOutline = __webpack_require__(408);
 	
 	var _infoOutline2 = _interopRequireDefault(_infoOutline);
 	
@@ -34418,44 +34416,6 @@
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _pure = __webpack_require__(388);
-	
-	var _pure2 = _interopRequireDefault(_pure);
-	
-	var _SvgIcon = __webpack_require__(397);
-	
-	var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ActionInfoOutline = function ActionInfoOutline(props) {
-	  return _react2.default.createElement(
-	    _SvgIcon2.default,
-	    props,
-	    _react2.default.createElement('path', { d: 'M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z' })
-	  );
-	};
-	ActionInfoOutline = (0, _pure2.default)(ActionInfoOutline);
-	ActionInfoOutline.displayName = 'ActionInfoOutline';
-	ActionInfoOutline.muiName = 'SvgIcon';
-	
-	exports.default = ActionInfoOutline;
-
-/***/ },
-/* 402 */,
-/* 403 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
@@ -34468,11 +34428,11 @@
 	
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 	
-	var _Drawer = __webpack_require__(404);
+	var _Drawer = __webpack_require__(402);
 	
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 	
-	var _close = __webpack_require__(409);
+	var _close = __webpack_require__(407);
 	
 	var _close2 = _interopRequireDefault(_close);
 	
@@ -34546,7 +34506,7 @@
 	module.exports = Container;
 
 /***/ },
-/* 404 */
+/* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34556,7 +34516,7 @@
 	});
 	exports.default = undefined;
 	
-	var _Drawer = __webpack_require__(405);
+	var _Drawer = __webpack_require__(403);
 	
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 	
@@ -34565,7 +34525,7 @@
 	exports.default = _Drawer2.default;
 
 /***/ },
-/* 405 */
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34588,7 +34548,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _reactEventListener = __webpack_require__(406);
+	var _reactEventListener = __webpack_require__(404);
 	
 	var _reactEventListener2 = _interopRequireDefault(_reactEventListener);
 	
@@ -34604,7 +34564,7 @@
 	
 	var _transitions2 = _interopRequireDefault(_transitions);
 	
-	var _Overlay = __webpack_require__(407);
+	var _Overlay = __webpack_require__(405);
 	
 	var _Overlay2 = _interopRequireDefault(_Overlay);
 	
@@ -35019,7 +34979,7 @@
 	exports.default = Drawer;
 
 /***/ },
-/* 406 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35186,7 +35146,7 @@
 	exports.default = EventListener;
 
 /***/ },
-/* 407 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35211,7 +35171,7 @@
 	
 	var _transitions2 = _interopRequireDefault(_transitions);
 	
-	var _AutoLockScrolling = __webpack_require__(408);
+	var _AutoLockScrolling = __webpack_require__(406);
 	
 	var _AutoLockScrolling2 = _interopRequireDefault(_AutoLockScrolling);
 	
@@ -35319,7 +35279,7 @@
 	exports.default = Overlay;
 
 /***/ },
-/* 408 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35426,7 +35386,7 @@
 	exports.default = AutoLockScrolling;
 
 /***/ },
-/* 409 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35463,7 +35423,44 @@
 	exports.default = NavigationClose;
 
 /***/ },
-/* 410 */
+/* 408 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _pure = __webpack_require__(388);
+	
+	var _pure2 = _interopRequireDefault(_pure);
+	
+	var _SvgIcon = __webpack_require__(397);
+	
+	var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ActionInfoOutline = function ActionInfoOutline(props) {
+	  return _react2.default.createElement(
+	    _SvgIcon2.default,
+	    props,
+	    _react2.default.createElement('path', { d: 'M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z' })
+	  );
+	};
+	ActionInfoOutline = (0, _pure2.default)(ActionInfoOutline);
+	ActionInfoOutline.displayName = 'ActionInfoOutline';
+	ActionInfoOutline.muiName = 'SvgIcon';
+	
+	exports.default = ActionInfoOutline;
+
+/***/ },
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

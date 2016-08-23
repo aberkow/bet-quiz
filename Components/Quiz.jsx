@@ -8,23 +8,6 @@ import quiz from '../js/quiz';
 import HeaderBar from './HeaderBar';
 import QuestionAnswerContainer from './QuestionAnswerContainer';
 
-class Quiz extends Component{
-  constructor(props){
-    super(props);
-  }
-  test(){
-    console.log(quiz);
-  }
-  render(){
-    return(
-      <div>
-        <HeaderBar open={this.props.isDrawerOpen} />
-        <QuestionAnswerContainer quiz={this.props.quiz} />
-      </div>
-    );
-  };
-};
-
 const quizArray = [
   {
     category: 'seating',
@@ -98,8 +81,23 @@ const quizArray = [
   }
 ];
 
+class Quiz extends Component{
+  constructor(props){
+    super(props);
+  }
+  test(){
+    console.log(quiz);
+  }
+  render(){
+    return(
+      <div>
+        <HeaderBar open={this.props.isDrawerOpen} />
+        <QuestionAnswerContainer quizArray={quizArray} />
+      </div>
+    );
+  };
+};
 
-Quiz.defaultProps = quizArray;
 
 let mapStateToProps = function(state, props){
   return{
