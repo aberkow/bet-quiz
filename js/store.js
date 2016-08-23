@@ -5,9 +5,9 @@ var createStore = redux.createStore;
 
 var reducers = require('./reducers');
 
-var store = createStore(reducers.quizReducer);
+var store = createStore(reducers.quizReducer, window.devToolsExtension ? window.devToolsExtension() : undefined);
 
-// , window.devToolsExtension ? window.devToolsExtension() : undefined
+//
 
 
 //uncomment if using thunk.

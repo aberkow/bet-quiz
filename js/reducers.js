@@ -5,7 +5,8 @@ const initialQuizState = {
   choice: '',
   currentQuestion: 0,
   numberLeft: '',
-  isQuizReset: false
+  isQuizReset: false,
+  isDrawerOpen: false
 };
 
 var quizReducer = function(state, action){
@@ -24,6 +25,12 @@ var quizReducer = function(state, action){
       isQuizReset: !action.isQuizReset
     });
     return quizResetState;
+  }
+  else if (action.type === actions.TOGGLE_DRAWER) {
+    var drawerState = Object.assign({}, state, {
+      isDrawerOpen: !action.isDrawerOpen
+    });
+    return drawerState;
   }
   return state;
 }
