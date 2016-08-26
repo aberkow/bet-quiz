@@ -6,12 +6,21 @@ const userChoice = function(choice){
   };
 };
 
-// const SUBMIT_CHOICE = 'SUBMIT_CHOICE';
-// const submitChoice = function(){
-//   return {
-//     type: SUBMIT_CHOICE
-//   };
-// };
+const STEP_INCREASE = 'STEP_INCREASE';
+const stepIncrease = function(step){
+  return {
+    type: STEP_INCREASE,
+    step: step
+  };
+};
+
+const STEP_DECREASE = 'STEP_DECREASE';
+const stepDecrease = function(step){
+  return {
+    type: STEP_DECREASE,
+    step: step
+  }
+}
 
 const RESET_QUIZ = 'RESET_QUIZ';
 const resetQuiz = function(isQuizReset){
@@ -31,8 +40,11 @@ const toggleDrawer = function(isDrawerOpen){
 exports.USER_CHOICE = USER_CHOICE;
 exports.userChoice = userChoice;
 
-// exports.SUBMIT_CHOICE = SUBMIT_CHOICE;
-// exports.submitChoice = submitChoice;
+exports.STEP_INCREASE = STEP_INCREASE;
+exports.stepIncrease = stepIncrease;
+
+exports.STEP_DECREASE = STEP_DECREASE;
+exports.stepDecrease = stepDecrease;
 
 exports.RESET_QUIZ = RESET_QUIZ;
 exports.resetQuiz = resetQuiz;

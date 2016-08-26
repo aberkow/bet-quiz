@@ -1,11 +1,12 @@
 const actions = require('./actions');
-const quiz = require('./quiz');
 
 const initialQuizState = {
   choice: '',
-  currentQuestion: 0,
-  numberLeft: '',
+  currentStep: 0,
+  //currentQuestion: quizArray[initialQuizState.currentStep],
+  //quizLength: quizArray.length,
   isQuizReset: false,
+  isQuizFinished: false,
   isDrawerOpen: false
 };
 
@@ -19,6 +20,25 @@ var quizReducer = function(state, action){
       choice: choice
     });
     return choiceState;
+  }
+  else if (action.type === actions.STEP_INCREASE) {
+    var nextStep = action.step + 1;
+    var stepIncreaseState = Object.assign({}, state, {
+      currentStep: nextStep
+    });
+    return stepIncreaseState;
+  }
+  else if (action.type === actions.STEP_DECREASE) {
+    if (currentStep > 0){
+      var prevStep = action.step - 1;
+      var stepDecreaseState = Object.assign({}, state, {
+        currentStep: prevStep
+      });
+    }
+    else {
+      console.log('currentStep is 0');
+    };
+    return stepDecreaseState;
   }
   else if (action.type === actions.RESET_QUIZ) {
     var quizResetState = Object.assign({}, state, {

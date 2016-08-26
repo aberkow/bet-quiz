@@ -92,7 +92,11 @@ class Quiz extends Component{
     return(
       <div>
         <HeaderBar open={this.props.isDrawerOpen} />
-        <QuestionAnswerContainer quizArray={quizArray} />
+        <QuestionAnswerContainer
+          length={quizArray.length}
+          questionAnswerInfo={quizArray[this.props.currentStep]}
+          finished={this.props.isQuizFinished}
+          currentStep={this.props.currentStep} />
       </div>
     );
   };
@@ -100,11 +104,13 @@ class Quiz extends Component{
 
 
 let mapStateToProps = function(state, props){
-  return{
+  return {
     choice: state.choice,
-    currentQuestion: state.currentQuestion,
-    numberLeft: state.numberLeft,
+    currentStep: state.currentStep,
+    //currentQuestion: state.currentQuestion,
+    quizLength: state.quizLength,
     isQuizReset: state.isQuizReset,
+    isQuizFinished: state.isQuizFinished,
     isDrawerOpen: state.isDrawerOpen
   }
 }
