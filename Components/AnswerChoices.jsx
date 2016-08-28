@@ -10,7 +10,14 @@ const actions = require('../js/actions');
 class AnswerChoices extends Component{
   constructor(props){
     super(props);
+    this.userChoice = this.userChoice.bind(this);
   }
+  userChoice(evt, value){
+    var userChoice = value[0];
+    this.props.dispatch(actions.userChoice(userChoice));
+    //console.log(value[0], 'from changeTest');
+  }
+
   render(){
     var answers = this.props.answerChoices.map(function(answer, index){
       var choices = createFragment({
@@ -28,7 +35,10 @@ class AnswerChoices extends Component{
     });
     return (
       <div>
-        <RadioButtonGroup name="quizAnswerChoices" answerChoices={this.props.answerChoices}>
+        <RadioButtonGroup
+          name="quizAnswerChoices"
+          answerChoices={this.props.answerChoices}
+          onChange={this.userChoice}>
           {answers}
         </RadioButtonGroup>
       </div>

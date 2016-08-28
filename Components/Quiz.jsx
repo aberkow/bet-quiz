@@ -6,6 +6,7 @@ const actions = require('../js/actions');
 import quiz from '../js/quiz';
 
 import HeaderBar from './HeaderBar';
+import ProgressBar from './ProgressBar';
 import QuestionAnswerContainer from './QuestionAnswerContainer';
 
 const quizArray = [
@@ -117,6 +118,7 @@ class Quiz extends Component{
           questionAnswerInfo={quizArray[this.props.currentStep]}
           finished={this.props.isQuizFinished}
           currentStep={this.props.currentStep} />
+        <ProgressBar progress={this.props.currentStep} />
       </div>
     );
   };
@@ -126,6 +128,7 @@ class Quiz extends Component{
 let mapStateToProps = function(state, props){
   return {
     choice: state.choice,
+    choiceArray: state.choiceArray,
     currentStep: state.currentStep,
     //currentQuestion: state.currentQuestion,
     quizLength: state.quizLength,

@@ -30059,6 +30059,7 @@
 	
 	var initialQuizState = {
 	  choice: '',
+	  choiceArray: [],
 	  currentStep: 0,
 	  //currentQuestion: quizArray[initialQuizState.currentStep],
 	  //quizLength: quizArray.length,
@@ -30079,20 +30080,33 @@
 	    return choiceState;
 	  } else if (action.type === actions.STEP_INCREASE) {
 	    var nextStep = action.step + 1;
+	    var userChoice = initialQuizState.choice || state.choice;
+	    console.log(userChoice, 'from quizReducer');
 	    var stepIncreaseState = Object.assign({}, state, {
-	      currentStep: nextStep
+	      currentStep: nextStep,
+	      choiceArray: state.choiceArray.concat(userChoice)
 	    });
 	    return stepIncreaseState;
 	  } else if (action.type === actions.STEP_DECREASE) {
-	    if (currentStep > 0) {
-	      var prevStep = action.step - 1;
-	      var stepDecreaseState = Object.assign({}, state, {
-	        currentStep: prevStep
-	      });
+	    if (action.step === 0) {
+	      console.log('the currentStep is 0');
 	    } else {
-	      console.log('currentStep is 0');
-	    };
-	    return stepDecreaseState;
+	      var backStep = action.step - 1;
+	      var stepDecreaseState = Object.assign({}, state, {
+	        currentStep: backStep
+	      });
+	      return stepDecreaseState;
+	    }
+	    // if (currentStep > 0){
+	    //   var prevStep = action.step - 1;
+	    //   var stepDecreaseState = Object.assign({}, state, {
+	    //     currentStep: prevStep
+	    //   });
+	    // }
+	    // else {
+	    //   console.log('currentStep is 0');
+	    // };
+	    // return stepDecreaseState;
 	  } else if (action.type === actions.RESET_QUIZ) {
 	    var quizResetState = Object.assign({}, state, {
 	      isQuizReset: !action.isQuizReset
@@ -30191,7 +30205,11 @@
 	
 	var _HeaderBar2 = _interopRequireDefault(_HeaderBar);
 	
-	var _QuestionAnswerContainer = __webpack_require__(409);
+	var _ProgressBar = __webpack_require__(409);
+	
+	var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
+	
+	var _QuestionAnswerContainer = __webpack_require__(412);
 	
 	var _QuestionAnswerContainer2 = _interopRequireDefault(_QuestionAnswerContainer);
 	
@@ -30272,7 +30290,8 @@
 	          length: quizArray.length,
 	          questionAnswerInfo: quizArray[this.props.currentStep],
 	          finished: this.props.isQuizFinished,
-	          currentStep: this.props.currentStep })
+	          currentStep: this.props.currentStep }),
+	        _react2.default.createElement(_ProgressBar2.default, { progress: this.props.currentStep })
 	      );
 	    }
 	  }]);
@@ -30285,6 +30304,7 @@
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
 	    choice: state.choice,
+	    choiceArray: state.choiceArray,
 	    currentStep: state.currentStep,
 	    //currentQuestion: state.currentQuestion,
 	    quizLength: state.quizLength,
@@ -35486,19 +35506,307 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _LinearProgress = __webpack_require__(410);
+	
+	var _LinearProgress2 = _interopRequireDefault(_LinearProgress);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ProgressBar = function (_Component) {
+	  _inherits(ProgressBar, _Component);
+	
+	  function ProgressBar(props) {
+	    _classCallCheck(this, ProgressBar);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ProgressBar).call(this, props));
+	  }
+	
+	  _createClass(ProgressBar, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_LinearProgress2.default, { mode: 'determinate', value: this.props.progress })
+	      );
+	    }
+	  }]);
+	
+	  return ProgressBar;
+	}(_react.Component);
+	
+	;
+	
+	module.exports = ProgressBar;
+
+/***/ },
+/* 410 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+	
+	var _LinearProgress = __webpack_require__(411);
+	
+	var _LinearProgress2 = _interopRequireDefault(_LinearProgress);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _LinearProgress2.default;
+
+/***/ },
+/* 411 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _simpleAssign = __webpack_require__(361);
+	
+	var _simpleAssign2 = _interopRequireDefault(_simpleAssign);
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _transitions = __webpack_require__(364);
+	
+	var _transitions2 = _interopRequireDefault(_transitions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	function getRelativeValue(value, min, max) {
+	  var clampedValue = Math.min(Math.max(min, value), max);
+	  var rangeValue = max - min;
+	  var relValue = Math.round((clampedValue - min) / rangeValue * 10000) / 10000;
+	  return relValue * 100;
+	}
+	
+	function getStyles(props, context) {
+	  var max = props.max;
+	  var min = props.min;
+	  var value = props.value;
+	  var palette = context.muiTheme.baseTheme.palette;
+	
+	
+	  var styles = {
+	    root: {
+	      position: 'relative',
+	      height: 4,
+	      display: 'block',
+	      width: '100%',
+	      backgroundColor: palette.primary3Color,
+	      borderRadius: 2,
+	      margin: 0,
+	      overflow: 'hidden'
+	    },
+	    bar: {
+	      height: '100%'
+	    },
+	    barFragment1: {},
+	    barFragment2: {}
+	  };
+	
+	  if (props.mode === 'indeterminate') {
+	    styles.barFragment1 = {
+	      position: 'absolute',
+	      backgroundColor: props.color || palette.primary1Color,
+	      top: 0,
+	      left: 0,
+	      bottom: 0,
+	      transition: _transitions2.default.create('all', '840ms', null, 'cubic-bezier(0.650, 0.815, 0.735, 0.395)')
+	    };
+	
+	    styles.barFragment2 = {
+	      position: 'absolute',
+	      backgroundColor: props.color || palette.primary1Color,
+	      top: 0,
+	      left: 0,
+	      bottom: 0,
+	      transition: _transitions2.default.create('all', '840ms', null, 'cubic-bezier(0.165, 0.840, 0.440, 1.000)')
+	    };
+	  } else {
+	    styles.bar.backgroundColor = props.color || palette.primary1Color;
+	    styles.bar.transition = _transitions2.default.create('width', '.3s', null, 'linear');
+	    styles.bar.width = getRelativeValue(value, min, max) + '%';
+	  }
+	
+	  return styles;
+	}
+	
+	var LinearProgress = function (_Component) {
+	  _inherits(LinearProgress, _Component);
+	
+	  function LinearProgress() {
+	    _classCallCheck(this, LinearProgress);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LinearProgress).apply(this, arguments));
+	  }
+	
+	  _createClass(LinearProgress, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      this.timers = {};
+	
+	      this.timers.bar1 = this.barUpdate('bar1', 0, this.refs.bar1, [[-35, 100], [100, -90]]);
+	
+	      this.timers.bar2 = setTimeout(function () {
+	        _this2.barUpdate('bar2', 0, _this2.refs.bar2, [[-200, 100], [107, -8]]);
+	      }, 850);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      clearTimeout(this.timers.bar1);
+	      clearTimeout(this.timers.bar2);
+	    }
+	  }, {
+	    key: 'barUpdate',
+	    value: function barUpdate(id, step, barElement, stepValues) {
+	      var _this3 = this;
+	
+	      if (this.props.mode !== 'indeterminate') return;
+	
+	      step = step || 0;
+	      step %= 4;
+	
+	      var right = this.context.muiTheme.isRtl ? 'left' : 'right';
+	      var left = this.context.muiTheme.isRtl ? 'right' : 'left';
+	
+	      if (step === 0) {
+	        barElement.style[left] = stepValues[0][0] + '%';
+	        barElement.style[right] = stepValues[0][1] + '%';
+	      } else if (step === 1) {
+	        barElement.style.transitionDuration = '840ms';
+	      } else if (step === 2) {
+	        barElement.style[left] = stepValues[1][0] + '%';
+	        barElement.style[right] = stepValues[1][1] + '%';
+	      } else if (step === 3) {
+	        barElement.style.transitionDuration = '0ms';
+	      }
+	      this.timers[id] = setTimeout(function () {
+	        return _this3.barUpdate(id, step + 1, barElement, stepValues);
+	      }, 420);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var style = _props.style;
+	
+	      var other = _objectWithoutProperties(_props, ['style']);
+	
+	      var prepareStyles = this.context.muiTheme.prepareStyles;
+	
+	      var styles = getStyles(this.props, this.context);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        _extends({}, other, { style: prepareStyles((0, _simpleAssign2.default)(styles.root, style)) }),
+	        _react2.default.createElement(
+	          'div',
+	          { style: prepareStyles(styles.bar) },
+	          _react2.default.createElement('div', { ref: 'bar1', style: prepareStyles(styles.barFragment1) }),
+	          _react2.default.createElement('div', { ref: 'bar2', style: prepareStyles(styles.barFragment2) })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return LinearProgress;
+	}(_react.Component);
+	
+	LinearProgress.propTypes = {
+	  /**
+	   * The mode of show your progress, indeterminate for
+	   * when there is no value for progress.
+	   */
+	  color: _react.PropTypes.string,
+	  /**
+	   * The max value of progress, only works in determinate mode.
+	   */
+	  max: _react.PropTypes.number,
+	  /**
+	   * The min value of progress, only works in determinate mode.
+	   */
+	  min: _react.PropTypes.number,
+	  /**
+	   * The mode of show your progress, indeterminate for when
+	   * there is no value for progress.
+	   */
+	  mode: _react.PropTypes.oneOf(['determinate', 'indeterminate']),
+	  /**
+	   * Override the inline-styles of the root element.
+	   */
+	  style: _react.PropTypes.object,
+	  /**
+	   * The value of progress, only works in determinate mode.
+	   */
+	  value: _react.PropTypes.number
+	};
+	LinearProgress.defaultProps = {
+	  mode: 'indeterminate',
+	  value: 0,
+	  min: 0,
+	  max: 100
+	};
+	LinearProgress.contextTypes = {
+	  muiTheme: _react.PropTypes.object.isRequired
+	};
+	exports.default = LinearProgress;
+
+/***/ },
+/* 412 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _RaisedButton = __webpack_require__(410);
+	var _RaisedButton = __webpack_require__(413);
 	
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
-	var _Card = __webpack_require__(412);
+	var _Card = __webpack_require__(415);
 	
-	var _FlatButton = __webpack_require__(424);
+	var _FlatButton = __webpack_require__(427);
 	
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 	
-	var _AnswerChoices = __webpack_require__(427);
+	var _AnswerChoices = __webpack_require__(430);
 	
 	var _AnswerChoices2 = _interopRequireDefault(_AnswerChoices);
 	
@@ -35510,14 +35818,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	// import {
-	//   Step,
-	//   Stepper,
-	//   StepLabel,
-	//   StepContent,
-	// } from 'material-ui/Stepper';
-	
-	
 	var actions = __webpack_require__(355);
 	
 	var QuestionAnswerContainer = function (_Component) {
@@ -35526,10 +35826,26 @@
 	  function QuestionAnswerContainer(props) {
 	    _classCallCheck(this, QuestionAnswerContainer);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(QuestionAnswerContainer).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuestionAnswerContainer).call(this, props));
+	
+	    _this.handleNext = _this.handleNext.bind(_this);
+	    _this.handleBack = _this.handleBack.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(QuestionAnswerContainer, [{
+	    key: 'handleNext',
+	    value: function handleNext() {
+	      var currentStep = this.props.currentStep;
+	      this.props.dispatch(actions.stepIncrease(currentStep));
+	    }
+	  }, {
+	    key: 'handleBack',
+	    value: function handleBack() {
+	      var currentStep = this.props.currentStep;
+	      this.props.dispatch(actions.stepDecrease(currentStep));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -35550,13 +35866,15 @@
 	              null,
 	              this.props.questionAnswerInfo.statement
 	            ),
-	            _react2.default.createElement(_AnswerChoices2.default, { answerChoices: this.props.questionAnswerInfo.answersArr })
+	            _react2.default.createElement(_AnswerChoices2.default, {
+	              answerChoices: this.props.questionAnswerInfo.answersArr,
+	              currentStep: this.props.currentStep })
 	          ),
 	          _react2.default.createElement(
 	            _Card.CardActions,
 	            null,
-	            _react2.default.createElement(_RaisedButton2.default, { label: 'Back' }),
-	            _react2.default.createElement(_RaisedButton2.default, { label: 'Next', primary: true })
+	            _react2.default.createElement(_RaisedButton2.default, { label: 'Back', onClick: this.handleBack }),
+	            _react2.default.createElement(_RaisedButton2.default, { label: 'Next', primary: true, onClick: this.handleNext })
 	          )
 	        )
 	      );
@@ -35572,7 +35890,7 @@
 	module.exports = Container;
 
 /***/ },
-/* 410 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35582,7 +35900,7 @@
 	});
 	exports.default = undefined;
 	
-	var _RaisedButton = __webpack_require__(411);
+	var _RaisedButton = __webpack_require__(414);
 	
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
@@ -35591,7 +35909,7 @@
 	exports.default = _RaisedButton2.default;
 
 /***/ },
-/* 411 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -36045,7 +36363,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 412 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36055,31 +36373,31 @@
 	});
 	exports.default = exports.CardExpandable = exports.CardActions = exports.CardText = exports.CardMedia = exports.CardTitle = exports.CardHeader = exports.Card = undefined;
 	
-	var _Card2 = __webpack_require__(413);
+	var _Card2 = __webpack_require__(416);
 	
 	var _Card3 = _interopRequireDefault(_Card2);
 	
-	var _CardHeader2 = __webpack_require__(417);
+	var _CardHeader2 = __webpack_require__(420);
 	
 	var _CardHeader3 = _interopRequireDefault(_CardHeader2);
 	
-	var _CardTitle2 = __webpack_require__(420);
+	var _CardTitle2 = __webpack_require__(423);
 	
 	var _CardTitle3 = _interopRequireDefault(_CardTitle2);
 	
-	var _CardMedia2 = __webpack_require__(421);
+	var _CardMedia2 = __webpack_require__(424);
 	
 	var _CardMedia3 = _interopRequireDefault(_CardMedia2);
 	
-	var _CardText2 = __webpack_require__(422);
+	var _CardText2 = __webpack_require__(425);
 	
 	var _CardText3 = _interopRequireDefault(_CardText2);
 	
-	var _CardActions2 = __webpack_require__(423);
+	var _CardActions2 = __webpack_require__(426);
 	
 	var _CardActions3 = _interopRequireDefault(_CardActions2);
 	
-	var _CardExpandable2 = __webpack_require__(414);
+	var _CardExpandable2 = __webpack_require__(417);
 	
 	var _CardExpandable3 = _interopRequireDefault(_CardExpandable2);
 	
@@ -36095,7 +36413,7 @@
 	exports.default = _Card3.default;
 
 /***/ },
-/* 413 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36120,7 +36438,7 @@
 	
 	var _Paper2 = _interopRequireDefault(_Paper);
 	
-	var _CardExpandable = __webpack_require__(414);
+	var _CardExpandable = __webpack_require__(417);
 	
 	var _CardExpandable2 = _interopRequireDefault(_CardExpandable);
 	
@@ -36294,7 +36612,7 @@
 	exports.default = Card;
 
 /***/ },
-/* 414 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36313,11 +36631,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _keyboardArrowUp = __webpack_require__(415);
+	var _keyboardArrowUp = __webpack_require__(418);
 	
 	var _keyboardArrowUp2 = _interopRequireDefault(_keyboardArrowUp);
 	
-	var _keyboardArrowDown = __webpack_require__(416);
+	var _keyboardArrowDown = __webpack_require__(419);
 	
 	var _keyboardArrowDown2 = _interopRequireDefault(_keyboardArrowDown);
 	
@@ -36384,7 +36702,7 @@
 	exports.default = CardExpandable;
 
 /***/ },
-/* 415 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36421,7 +36739,7 @@
 	exports.default = HardwareKeyboardArrowUp;
 
 /***/ },
-/* 416 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36458,7 +36776,7 @@
 	exports.default = HardwareKeyboardArrowDown;
 
 /***/ },
-/* 417 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36479,7 +36797,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Avatar = __webpack_require__(418);
+	var _Avatar = __webpack_require__(421);
 	
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 	
@@ -36660,7 +36978,7 @@
 	exports.default = CardHeader;
 
 /***/ },
-/* 418 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36670,7 +36988,7 @@
 	});
 	exports.default = undefined;
 	
-	var _Avatar = __webpack_require__(419);
+	var _Avatar = __webpack_require__(422);
 	
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 	
@@ -36679,7 +36997,7 @@
 	exports.default = _Avatar2.default;
 
 /***/ },
-/* 419 */
+/* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36838,7 +37156,7 @@
 	exports.default = Avatar;
 
 /***/ },
-/* 420 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37000,7 +37318,7 @@
 	exports.default = CardTitle;
 
 /***/ },
-/* 421 */
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37198,7 +37516,7 @@
 	exports.default = CardMedia;
 
 /***/ },
-/* 422 */
+/* 425 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37308,7 +37626,7 @@
 	exports.default = CardText;
 
 /***/ },
-/* 423 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37422,7 +37740,7 @@
 	exports.default = CardActions;
 
 /***/ },
-/* 424 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37432,7 +37750,7 @@
 	});
 	exports.default = undefined;
 	
-	var _FlatButton = __webpack_require__(425);
+	var _FlatButton = __webpack_require__(428);
 	
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 	
@@ -37441,7 +37759,7 @@
 	exports.default = _FlatButton2.default;
 
 /***/ },
-/* 425 */
+/* 428 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -37474,7 +37792,7 @@
 	
 	var _EnhancedButton2 = _interopRequireDefault(_EnhancedButton);
 	
-	var _FlatButtonLabel = __webpack_require__(426);
+	var _FlatButtonLabel = __webpack_require__(429);
 	
 	var _FlatButtonLabel2 = _interopRequireDefault(_FlatButtonLabel);
 	
@@ -37759,7 +38077,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 426 */
+/* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37840,7 +38158,7 @@
 	exports.default = FlatButtonLabel;
 
 /***/ },
-/* 427 */
+/* 430 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37853,7 +38171,7 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _RadioButton = __webpack_require__(428);
+	var _RadioButton = __webpack_require__(431);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -37874,10 +38192,20 @@
 	  function AnswerChoices(props) {
 	    _classCallCheck(this, AnswerChoices);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(AnswerChoices).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AnswerChoices).call(this, props));
+	
+	    _this.userChoice = _this.userChoice.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(AnswerChoices, [{
+	    key: 'userChoice',
+	    value: function userChoice(evt, value) {
+	      var userChoice = value[0];
+	      this.props.dispatch(actions.userChoice(userChoice));
+	      //console.log(value[0], 'from changeTest');
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var answers = this.props.answerChoices.map(function (answer, index) {
@@ -37897,7 +38225,10 @@
 	        null,
 	        _react2.default.createElement(
 	          _RadioButton.RadioButtonGroup,
-	          { name: 'quizAnswerChoices', answerChoices: this.props.answerChoices },
+	          {
+	            name: 'quizAnswerChoices',
+	            answerChoices: this.props.answerChoices,
+	            onChange: this.userChoice },
 	          answers
 	        )
 	      );
@@ -37913,7 +38244,7 @@
 	module.exports = Container;
 
 /***/ },
-/* 428 */
+/* 431 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37923,11 +38254,11 @@
 	});
 	exports.default = exports.RadioButtonGroup = exports.RadioButton = undefined;
 	
-	var _RadioButton2 = __webpack_require__(429);
+	var _RadioButton2 = __webpack_require__(432);
 	
 	var _RadioButton3 = _interopRequireDefault(_RadioButton2);
 	
-	var _RadioButtonGroup2 = __webpack_require__(433);
+	var _RadioButtonGroup2 = __webpack_require__(436);
 	
 	var _RadioButtonGroup3 = _interopRequireDefault(_RadioButtonGroup2);
 	
@@ -37938,7 +38269,7 @@
 	exports.default = _RadioButton3.default;
 
 /***/ },
-/* 429 */
+/* 432 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37963,15 +38294,15 @@
 	
 	var _transitions2 = _interopRequireDefault(_transitions);
 	
-	var _EnhancedSwitch = __webpack_require__(430);
+	var _EnhancedSwitch = __webpack_require__(433);
 	
 	var _EnhancedSwitch2 = _interopRequireDefault(_EnhancedSwitch);
 	
-	var _radioButtonUnchecked = __webpack_require__(431);
+	var _radioButtonUnchecked = __webpack_require__(434);
 	
 	var _radioButtonUnchecked2 = _interopRequireDefault(_radioButtonUnchecked);
 	
-	var _radioButtonChecked = __webpack_require__(432);
+	var _radioButtonChecked = __webpack_require__(435);
 	
 	var _radioButtonChecked2 = _interopRequireDefault(_radioButtonChecked);
 	
@@ -38201,7 +38532,7 @@
 	exports.default = RadioButton;
 
 /***/ },
-/* 430 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -38645,7 +38976,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 431 */
+/* 434 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38682,7 +39013,7 @@
 	exports.default = ToggleRadioButtonUnchecked;
 
 /***/ },
-/* 432 */
+/* 435 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38719,7 +39050,7 @@
 	exports.default = ToggleRadioButtonChecked;
 
 /***/ },
-/* 433 */
+/* 436 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -38740,7 +39071,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _RadioButton = __webpack_require__(428);
+	var _RadioButton = __webpack_require__(431);
 	
 	var _RadioButton2 = _interopRequireDefault(_RadioButton);
 	
