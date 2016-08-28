@@ -1,69 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
-import {
-  Step,
-  Stepper,
-  StepLabel,
-  StepContent,
-} from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+
+import QuestionChoices from './AnswerChoices';
 
 const actions = require('../js/actions');
 
 class QuestionAnswerContainer extends Component{
   constructor(props){
     super(props);
-    this.handleNext = this.handleNext.bind(this);
-    this.handlePrev = this.handlePrev.bind(this);
   }
-  handleNext(){
-    const currentStep = this.props.currentStep;
-    this.props.dispatch(actions.stepIncrease(currentStep));
-  }
-  handlePrev(){
-    const currentStep = this.props.currentStep;
-    this.props.dispatch(actions.stepDecrease(currentStep));
-  }
-  renderStepActions(step){
-    const currentStep = this.props.currentStep;
+  render(){
     return(
       <div>
-        <RaisedButton
-          label={currentStep === this.props.length ? 'Finish' : 'Next'}
-          disableTouchRipple={true}
-          disableRippleFocus={true}
-          primary={true}
-          onTouchTap={this.handleNext} />
-          <FlatButton
-            label='Back'
-            disabled={currentStep === 0}
-            disableTouchRipple={true}
-            disableRippleFocus={true}
-            onTouchTap={this.handlePrev} />
-      </div>
-    );
-  }
+        <Card>
+          <CardHeader
+            title={this.props.questionAnswerInfo.category}
+            actAsExcpander={false}
+            showExpandableButton={false} />
 
-  render(){
-    const finished = this.props.finished
-    const currentStep = this.props.currentStep
-    return (
-      <div>
-        <Stepper activeStep={currentStep} orientation={'vertical'}>
-          <Step>
-            <StepLabel>{this.props.questionAnswerInfo.statement}</StepLabel>
-            <StepContent>
-              <p>{this.props.questionAnswerInfo.sanctuary}</p>
-              <p>{this.props.questionAnswerInfo.kessler}</p>
-              <p>{this.props.questionAnswerInfo.chapel}</p>
-              {this.renderStepActions(currentStep)}
-            </StepContent>
-          </Step>
-        </Stepper>
+          <CardText>
+            <h3>{this.props.questionAnswerInfo.statement}</h3>
 
+            <QuestionChoices answerChoices={this.props.questionAnswerInfo.answersArr} />
+          </CardText>
+          <CardActions>
+            <RaisedButton label="Back" />
+            <RaisedButton label="Next" primary={true} />
+          </CardActions>
+        </Card>
       </div>
     );
   };
@@ -71,12 +39,3 @@ class QuestionAnswerContainer extends Component{
 
 var Container = connect()(QuestionAnswerContainer);
 module.exports = Container;
-
-// <div>
-//   <h1>{this.props.questionAnswerInfo.category}</h1>
-//   <h2>Question: {this.props.questionAnswerInfo.statement}</h2>
-//   <h3>Answers</h3>
-//   <p>{this.props.questionAnswerInfo.sanctuary}</p>
-//   <p>{this.props.questionAnswerInfo.kessler}</p>
-//   <p>{this.props.questionAnswerInfo.chapel}</p>
-// </div>
