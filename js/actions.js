@@ -19,8 +19,16 @@ const stepDecrease = function(step){
   return {
     type: STEP_DECREASE,
     step: step
-  }
-}
+  };
+};
+
+const FINISH_QUIZ = 'FINISH_QUIZ';
+const finishQuiz = function(isQuizFinished){
+  return {
+    type: FINISH_QUIZ,
+    isQuizFinished: isQuizFinished
+  };
+};
 
 const RESET_QUIZ = 'RESET_QUIZ';
 const resetQuiz = function(isQuizReset){
@@ -45,6 +53,9 @@ exports.stepIncrease = stepIncrease;
 
 exports.STEP_DECREASE = STEP_DECREASE;
 exports.stepDecrease = stepDecrease;
+
+exports.FINISH_QUIZ = FINISH_QUIZ;
+exports.finishQuiz = finishQuiz;
 
 exports.RESET_QUIZ = RESET_QUIZ;
 exports.resetQuiz = resetQuiz;

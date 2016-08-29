@@ -21,7 +21,7 @@ class HeaderBar extends Component{
       <div>
         <AppBar title='Beth El Quiz'
           iconElementLeft={
-            <IconButton onClick={this.openDrawer}>
+            <IconButton onTouchTap={this.openDrawer}>
               <InfoOutline />
             </IconButton>
           } />

@@ -8,7 +8,10 @@ class ProgressBar extends Component{
   render(){
     return(
       <div>
-        <LinearProgress mode='determinate'  value={this.props.progress} />
+        <LinearProgress mode='determinate'
+          value={this.props.progress}
+          min={0}
+          max={this.props.max} />
       </div>
     );
   };

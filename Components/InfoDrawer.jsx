@@ -20,7 +20,7 @@ class InfoDrawer extends Component{
       <div>
         <Drawer open={this.props.open}
           width={500}>
-          <IconButton onClick={this.closeDrawer}>
+          <IconButton onTouchTap={this.closeDrawer}>
             <NavigationClose />
           </IconButton>
           <div>

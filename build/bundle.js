@@ -30081,7 +30081,6 @@
 	  } else if (action.type === actions.STEP_INCREASE) {
 	    var nextStep = action.step + 1;
 	    var userChoice = initialQuizState.choice || state.choice;
-	    console.log(userChoice, 'from quizReducer');
 	    var stepIncreaseState = Object.assign({}, state, {
 	      currentStep: nextStep,
 	      choiceArray: state.choiceArray.concat(userChoice)
@@ -30092,21 +30091,12 @@
 	      console.log('the currentStep is 0');
 	    } else {
 	      var backStep = action.step - 1;
+	      var choiceToRemove = state.choiceArray.lastIndexOf;
 	      var stepDecreaseState = Object.assign({}, state, {
 	        currentStep: backStep
 	      });
 	      return stepDecreaseState;
 	    }
-	    // if (currentStep > 0){
-	    //   var prevStep = action.step - 1;
-	    //   var stepDecreaseState = Object.assign({}, state, {
-	    //     currentStep: prevStep
-	    //   });
-	    // }
-	    // else {
-	    //   console.log('currentStep is 0');
-	    // };
-	    // return stepDecreaseState;
 	  } else if (action.type === actions.RESET_QUIZ) {
 	    var quizResetState = Object.assign({}, state, {
 	      isQuizReset: !action.isQuizReset
@@ -30153,6 +30143,14 @@
 	  };
 	};
 	
+	var FINISH_QUIZ = 'FINISH_QUIZ';
+	var finishQuiz = function finishQuiz(isQuizFinished) {
+	  return {
+	    type: FINISH_QUIZ,
+	    isQuizFinished: isQuizFinished
+	  };
+	};
+	
 	var RESET_QUIZ = 'RESET_QUIZ';
 	var resetQuiz = function resetQuiz(isQuizReset) {
 	  return {
@@ -30176,6 +30174,9 @@
 	
 	exports.STEP_DECREASE = STEP_DECREASE;
 	exports.stepDecrease = stepDecrease;
+	
+	exports.FINISH_QUIZ = FINISH_QUIZ;
+	exports.finishQuiz = finishQuiz;
 	
 	exports.RESET_QUIZ = RESET_QUIZ;
 	exports.resetQuiz = resetQuiz;
@@ -30291,7 +30292,9 @@
 	          questionAnswerInfo: quizArray[this.props.currentStep],
 	          finished: this.props.isQuizFinished,
 	          currentStep: this.props.currentStep }),
-	        _react2.default.createElement(_ProgressBar2.default, { progress: this.props.currentStep })
+	        _react2.default.createElement(_ProgressBar2.default, {
+	          progress: this.props.currentStep,
+	          max: quizArray.length })
 	      );
 	    }
 	  }]);
@@ -30307,7 +30310,7 @@
 	    choiceArray: state.choiceArray,
 	    currentStep: state.currentStep,
 	    //currentQuestion: state.currentQuestion,
-	    quizLength: state.quizLength,
+	    //quizLength: state.quizLength,
 	    isQuizReset: state.isQuizReset,
 	    isQuizFinished: state.isQuizFinished,
 	    isDrawerOpen: state.isDrawerOpen
@@ -30465,7 +30468,7 @@
 	        _react2.default.createElement(_AppBar2.default, { title: 'Beth El Quiz',
 	          iconElementLeft: _react2.default.createElement(
 	            _IconButton2.default,
-	            { onClick: this.openDrawer },
+	            { onTouchTap: this.openDrawer },
 	            _react2.default.createElement(_infoOutline2.default, null)
 	          ) }),
 	        _react2.default.createElement(_InfoDrawer2.default, { open: this.props.open })
@@ -34510,7 +34513,7 @@
 	            width: 500 },
 	          _react2.default.createElement(
 	            _IconButton2.default,
-	            { onClick: this.closeDrawer },
+	            { onTouchTap: this.closeDrawer },
 	            _react2.default.createElement(_close2.default, null)
 	          ),
 	          _react2.default.createElement(
@@ -35533,7 +35536,10 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_LinearProgress2.default, { mode: 'determinate', value: this.props.progress })
+	        _react2.default.createElement(_LinearProgress2.default, { mode: 'determinate',
+	          value: this.props.progress,
+	          min: 0,
+	          max: this.props.max })
 	      );
 	    }
 	  }]);
@@ -35848,6 +35854,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var currentStep = this.props.currentStep;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -35868,13 +35875,19 @@
 	            ),
 	            _react2.default.createElement(_AnswerChoices2.default, {
 	              answerChoices: this.props.questionAnswerInfo.answersArr,
-	              currentStep: this.props.currentStep })
+	              currentStep: currentStep })
 	          ),
 	          _react2.default.createElement(
 	            _Card.CardActions,
 	            null,
-	            _react2.default.createElement(_RaisedButton2.default, { label: 'Back', onClick: this.handleBack }),
-	            _react2.default.createElement(_RaisedButton2.default, { label: 'Next', primary: true, onClick: this.handleNext })
+	            _react2.default.createElement(_RaisedButton2.default, {
+	              label: 'Back',
+	              disabled: currentStep === 0,
+	              onTouchTap: this.handleBack }),
+	            _react2.default.createElement(_RaisedButton2.default, {
+	              label: currentStep === this.props.length - 1 ? 'Finish' : 'Next',
+	              primary: true,
+	              onTouchTap: this.handleNext })
 	          )
 	        )
 	      );

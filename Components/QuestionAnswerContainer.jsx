@@ -9,7 +9,8 @@ import AnswerChoices from './AnswerChoices';
 
 const actions = require('../js/actions');
 
-class QuestionAnswerContainer extends Component{
+class QuestionAnswerContainer extends Component {
+
   constructor(props){
     super(props);
     this.handleNext = this.handleNext.bind(this);
@@ -24,6 +25,7 @@ class QuestionAnswerContainer extends Component{
     this.props.dispatch(actions.stepDecrease(currentStep));
   }
   render(){
+    var currentStep = this.props.currentStep;
     return(
       <div>
         <Card>
@@ -37,11 +39,17 @@ class QuestionAnswerContainer extends Component{
 
             <AnswerChoices
               answerChoices={this.props.questionAnswerInfo.answersArr}
-              currentStep={this.props.currentStep} />
+              currentStep={currentStep} />
           </CardText>
           <CardActions>
-            <RaisedButton label="Back" onClick={this.handleBack} />
-            <RaisedButton label="Next" primary={true} onClick={this.handleNext} />
+            <RaisedButton
+              label="Back"
+              disabled={currentStep === 0}
+              onTouchTap={this.handleBack} />
+            <RaisedButton
+              label={currentStep === this.props.length - 1 ? 'Finish' : 'Next'}
+              primary={true}
+              onTouchTap={this.handleNext} />
           </CardActions>
         </Card>
       </div>

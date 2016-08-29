@@ -25,7 +25,6 @@ var quizReducer = function(state, action){
   else if (action.type === actions.STEP_INCREASE) {
     var nextStep = action.step + 1;
     var userChoice = initialQuizState.choice || state.choice;
-    console.log(userChoice, 'from quizReducer');
     var stepIncreaseState = Object.assign({}, state, {
       currentStep: nextStep,
       choiceArray: state.choiceArray.concat(userChoice)
@@ -38,21 +37,12 @@ var quizReducer = function(state, action){
     }
     else {
       var backStep = action.step - 1;
+      var choiceToRemove = state.choiceArray.lastIndexOf
       var stepDecreaseState = Object.assign({}, state, {
         currentStep: backStep
       });
       return stepDecreaseState;
     }
-    // if (currentStep > 0){
-    //   var prevStep = action.step - 1;
-    //   var stepDecreaseState = Object.assign({}, state, {
-    //     currentStep: prevStep
-    //   });
-    // }
-    // else {
-    //   console.log('currentStep is 0');
-    // };
-    // return stepDecreaseState;
   }
   else if (action.type === actions.RESET_QUIZ) {
     var quizResetState = Object.assign({}, state, {
