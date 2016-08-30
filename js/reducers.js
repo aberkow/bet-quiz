@@ -22,12 +22,28 @@ var quizReducer = function(state, action){
     });
     return choiceState;
   }
+  else if (action.type === actions.ADD_USER_CHOICE) {
+    var choiceToAdd = action.choiceToAdd;
+    var addChoiceState = Object.assign({}, state, {
+      choiceArray: state.choiceArray.concat(choiceToAdd)
+    });
+    return addChoiceState;
+  }
+  else if (action.type === actions.REMOVE_USER_CHOICE) {
+    var choiceArray = state.choiceArray;
+    var choiceToRemove = action.choiceToRemove;
+    var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
+    console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
+    console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
+    var removeChoiceState = Object.assign({}, state, {
+      choiceArray: choiceArray
+    });
+    return removeChoiceState;
+  }
   else if (action.type === actions.STEP_INCREASE) {
     var nextStep = action.step + 1;
-    var userChoice = initialQuizState.choice || state.choice;
     var stepIncreaseState = Object.assign({}, state, {
-      currentStep: nextStep,
-      choiceArray: state.choiceArray.concat(userChoice)
+      currentStep: nextStep
     });
     return stepIncreaseState;
   }
@@ -37,12 +53,16 @@ var quizReducer = function(state, action){
     }
     else {
       var backStep = action.step - 1;
-      var choiceToRemove = state.choiceArray.lastIndexOf
       var stepDecreaseState = Object.assign({}, state, {
         currentStep: backStep
       });
       return stepDecreaseState;
     }
+  }
+  else if (action.type === actions.FINISH_QUIZ) {
+    var finishQuizState = Object.assign({}, state, {
+      isQuizFinished: !action.isQuizFinished
+    })
   }
   else if (action.type === actions.RESET_QUIZ) {
     var quizResetState = Object.assign({}, state, {

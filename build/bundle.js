@@ -30078,12 +30078,26 @@
 	      choice: choice
 	    });
 	    return choiceState;
+	  } else if (action.type === actions.ADD_USER_CHOICE) {
+	    var choiceToAdd = action.choiceToAdd;
+	    var addChoiceState = Object.assign({}, state, {
+	      choiceArray: state.choiceArray.concat(choiceToAdd)
+	    });
+	    return addChoiceState;
+	  } else if (action.type === actions.REMOVE_USER_CHOICE) {
+	    var choiceArray = state.choiceArray;
+	    var choiceToRemove = action.choiceToRemove;
+	    var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
+	    console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
+	    console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
+	    var removeChoiceState = Object.assign({}, state, {
+	      choiceArray: choiceArray
+	    });
+	    return removeChoiceState;
 	  } else if (action.type === actions.STEP_INCREASE) {
 	    var nextStep = action.step + 1;
-	    var userChoice = initialQuizState.choice || state.choice;
 	    var stepIncreaseState = Object.assign({}, state, {
-	      currentStep: nextStep,
-	      choiceArray: state.choiceArray.concat(userChoice)
+	      currentStep: nextStep
 	    });
 	    return stepIncreaseState;
 	  } else if (action.type === actions.STEP_DECREASE) {
@@ -30091,12 +30105,15 @@
 	      console.log('the currentStep is 0');
 	    } else {
 	      var backStep = action.step - 1;
-	      var choiceToRemove = state.choiceArray.lastIndexOf;
 	      var stepDecreaseState = Object.assign({}, state, {
 	        currentStep: backStep
 	      });
 	      return stepDecreaseState;
 	    }
+	  } else if (action.type === actions.FINISH_QUIZ) {
+	    var finishQuizState = Object.assign({}, state, {
+	      isQuizFinished: !action.isQuizFinished
+	    });
 	  } else if (action.type === actions.RESET_QUIZ) {
 	    var quizResetState = Object.assign({}, state, {
 	      isQuizReset: !action.isQuizReset
@@ -30124,6 +30141,22 @@
 	  return {
 	    type: USER_CHOICE,
 	    choice: choice
+	  };
+	};
+	
+	var ADD_USER_CHOICE = 'ADD_USER_CHOICE';
+	var addUserChoice = function addUserChoice(choiceToAdd) {
+	  return {
+	    type: ADD_USER_CHOICE,
+	    choiceToAdd: choiceToAdd
+	  };
+	};
+	
+	var REMOVE_USER_CHOICE = 'REMOVE_USER_CHOICE';
+	var removeUserChoice = function removeUserChoice(choiceToRemove) {
+	  return {
+	    type: REMOVE_USER_CHOICE,
+	    choiceToRemove: choiceToRemove
 	  };
 	};
 	
@@ -30168,6 +30201,12 @@
 	};
 	exports.USER_CHOICE = USER_CHOICE;
 	exports.userChoice = userChoice;
+	
+	exports.ADD_USER_CHOICE = ADD_USER_CHOICE;
+	exports.addUserChoice = addUserChoice;
+	
+	exports.REMOVE_USER_CHOICE = REMOVE_USER_CHOICE;
+	exports.removeUserChoice = removeUserChoice;
 	
 	exports.STEP_INCREASE = STEP_INCREASE;
 	exports.stepIncrease = stepIncrease;
@@ -30290,8 +30329,10 @@
 	        _react2.default.createElement(_QuestionAnswerContainer2.default, {
 	          length: quizArray.length,
 	          questionAnswerInfo: quizArray[this.props.currentStep],
-	          finished: this.props.isQuizFinished,
-	          currentStep: this.props.currentStep }),
+	          choice: this.props.choice,
+	          choiceArray: this.props.choiceArray,
+	          currentStep: this.props.currentStep,
+	          finished: this.props.isQuizFinished }),
 	        _react2.default.createElement(_ProgressBar2.default, {
 	          progress: this.props.currentStep,
 	          max: quizArray.length })
@@ -35842,14 +35883,24 @@
 	  _createClass(QuestionAnswerContainer, [{
 	    key: 'handleNext',
 	    value: function handleNext() {
+	      var choiceToAdd = this.props.choice;
 	      var currentStep = this.props.currentStep;
-	      this.props.dispatch(actions.stepIncrease(currentStep));
+	      if (currentStep <= 9) {
+	        this.props.dispatch(actions.stepIncrease(currentStep));
+	        this.props.dispatch(actions.addUserChoice(choiceToAdd));
+	      } else {
+	        console.log('finished', 'from handleNext');
+	        this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
+	      }
 	    }
 	  }, {
 	    key: 'handleBack',
 	    value: function handleBack() {
+	      var choiceArray = this.props.choiceArray;
+	      var choiceToRemove = choiceArray[choiceArray.length - 1];
 	      var currentStep = this.props.currentStep;
 	      this.props.dispatch(actions.stepDecrease(currentStep));
+	      this.props.dispatch(actions.removeUserChoice(choiceToRemove));
 	    }
 	  }, {
 	    key: 'render',

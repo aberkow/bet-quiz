@@ -116,8 +116,10 @@ class Quiz extends Component{
         <QuestionAnswerContainer
           length={quizArray.length}
           questionAnswerInfo={quizArray[this.props.currentStep]}
-          finished={this.props.isQuizFinished}
-          currentStep={this.props.currentStep} />
+          choice={this.props.choice}
+          choiceArray={this.props.choiceArray}
+          currentStep={this.props.currentStep}
+          finished={this.props.isQuizFinished} />
         <ProgressBar
           progress={this.props.currentStep}
           max={quizArray.length} />

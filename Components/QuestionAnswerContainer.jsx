@@ -17,12 +17,23 @@ class QuestionAnswerContainer extends Component {
     this.handleBack = this.handleBack.bind(this);
   }
   handleNext(){
+    var choiceToAdd = this.props.choice;
     var currentStep = this.props.currentStep;
-    this.props.dispatch(actions.stepIncrease(currentStep));
+    if (currentStep <= 9){
+      this.props.dispatch(actions.stepIncrease(currentStep));
+      this.props.dispatch(actions.addUserChoice(choiceToAdd));
+    }
+    else {
+      console.log('finished', 'from handleNext');
+      this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
+    }
   }
   handleBack(){
+    var choiceArray = this.props.choiceArray;
+    var choiceToRemove = choiceArray[choiceArray.length - 1];
     var currentStep = this.props.currentStep;
     this.props.dispatch(actions.stepDecrease(currentStep));
+    this.props.dispatch(actions.removeUserChoice(choiceToRemove));
   }
   render(){
     var currentStep = this.props.currentStep;

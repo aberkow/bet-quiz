@@ -6,6 +6,22 @@ const userChoice = function(choice){
   };
 };
 
+const ADD_USER_CHOICE = 'ADD_USER_CHOICE';
+const addUserChoice = function(choiceToAdd){
+  return {
+    type: ADD_USER_CHOICE,
+    choiceToAdd: choiceToAdd
+  };
+};
+
+const REMOVE_USER_CHOICE = 'REMOVE_USER_CHOICE';
+const removeUserChoice = function(choiceToRemove){
+  return {
+    type: REMOVE_USER_CHOICE,
+    choiceToRemove: choiceToRemove
+  };
+};
+
 const STEP_INCREASE = 'STEP_INCREASE';
 const stepIncrease = function(step){
   return {
@@ -47,6 +63,12 @@ const toggleDrawer = function(isDrawerOpen){
 }
 exports.USER_CHOICE = USER_CHOICE;
 exports.userChoice = userChoice;
+
+exports.ADD_USER_CHOICE = ADD_USER_CHOICE;
+exports.addUserChoice = addUserChoice;
+
+exports.REMOVE_USER_CHOICE = REMOVE_USER_CHOICE;
+exports.removeUserChoice = removeUserChoice;
 
 exports.STEP_INCREASE = STEP_INCREASE;
 exports.stepIncrease = stepIncrease;
