@@ -31,10 +31,10 @@ class QuestionAnswerContainer extends Component {
   handleBack(){
     var choiceArray = this.props.choiceArray;
     //choiceArray.length - 2 is correct bc it will be used in splice in the reducer.
-    var lastDesiredIndex = choiceArray[choiceArray.length - 2];
+    var choiceToRemove = choiceArray.length - 1;
     var currentStep = this.props.currentStep;
 
-    this.props.dispatch(actions.removeUserChoice(lastDesiredIndex));
+    this.props.dispatch(actions.removeUserChoice(choiceToRemove));
     this.props.dispatch(actions.stepDecrease(currentStep));
   }
   render(){

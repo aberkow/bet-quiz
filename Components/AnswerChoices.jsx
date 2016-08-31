@@ -20,10 +20,10 @@ class AnswerChoices extends Component{
 
   render(){
     var answerArray = this.props.answerChoices;
-    var shuffledAnswers = answerArray.sort(function() {
+    var shuffledAnswerArray = answerArray.sort(function() {
       return 0.5 - Math.random()
     });
-    var answers = shuffledAnswers.map(function(answer, index){
+    var answers = shuffledAnswerArray.map(function(answer, index){
       var choices = createFragment({
         sanctuary: answer.sanctuary,
         kessler: answer.kessler,

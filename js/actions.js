@@ -15,10 +15,10 @@ const addUserChoice = function(choiceToAdd){
 };
 
 const REMOVE_USER_CHOICE = 'REMOVE_USER_CHOICE';
-const removeUserChoice = function(lastDesiredIndex){
+const removeUserChoice = function(choiceToRemove){
   return {
     type: REMOVE_USER_CHOICE,
-    lastDesiredIndex: lastDesiredIndex
+    choiceToRemove: choiceToRemove
   };
 };
 

@@ -13,9 +13,7 @@ const initialQuizState = {
 
 var quizReducer = function(state, action){
   state = state || initialQuizState;
-  //can also be a switch case statement
   if (action.type === actions.USER_CHOICE){
-    //things happen
     var choice = action.choice;
     var choiceState = Object.assign({}, state, {
       choice: choice
@@ -31,25 +29,13 @@ var quizReducer = function(state, action){
   }
   else if (action.type === actions.REMOVE_USER_CHOICE) {
     var choiceArray = state.choiceArray;
-    var lastDesiredIndex = action.lastDesiredIndex;
-    var choiceRemoved = choiceArray.splice(lastDesiredIndex, 1);
+    var choiceToRemove = action.choiceToRemove;
+    var choiceRemoved = choiceArray.slice(0, choiceToRemove);
+
     var removeChoiceState = Object.assign({}, state, {
-      choiceArray: choiceArray
-    })
+      choiceArray: choiceRemoved
+    });
     return removeChoiceState;
-
-    //if array.length > 1
-    //else set array.length = 0;
-
-    // var choiceArray = state.choiceArray;
-    // var choiceToRemove = action.choiceToRemove;
-    // var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
-    // console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
-    // console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
-    // var removeChoiceState = Object.assign({}, state, {
-    //   choiceArray: choiceArray
-    // });
-    // return removeChoiceState;
   }
   else if (action.type === actions.STEP_INCREASE) {
     var nextStep = action.step + 1;
