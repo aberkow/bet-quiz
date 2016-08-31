@@ -31,14 +31,25 @@ var quizReducer = function(state, action){
   }
   else if (action.type === actions.REMOVE_USER_CHOICE) {
     var choiceArray = state.choiceArray;
-    var choiceToRemove = action.choiceToRemove;
-    var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
-    console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
-    console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
+    var lastDesiredIndex = action.lastDesiredIndex;
+    var choiceRemoved = choiceArray.splice(lastDesiredIndex, 1);
     var removeChoiceState = Object.assign({}, state, {
       choiceArray: choiceArray
-    });
+    })
     return removeChoiceState;
+
+    //if array.length > 1
+    //else set array.length = 0;
+
+    // var choiceArray = state.choiceArray;
+    // var choiceToRemove = action.choiceToRemove;
+    // var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
+    // console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
+    // console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
+    // var removeChoiceState = Object.assign({}, state, {
+    //   choiceArray: choiceArray
+    // });
+    // return removeChoiceState;
   }
   else if (action.type === actions.STEP_INCREASE) {
     var nextStep = action.step + 1;

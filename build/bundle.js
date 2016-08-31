@@ -30086,14 +30086,25 @@
 	    return addChoiceState;
 	  } else if (action.type === actions.REMOVE_USER_CHOICE) {
 	    var choiceArray = state.choiceArray;
-	    var choiceToRemove = action.choiceToRemove;
-	    var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
-	    console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
-	    console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
+	    var lastDesiredIndex = action.lastDesiredIndex;
+	    var choiceRemoved = choiceArray.splice(lastDesiredIndex, 1);
 	    var removeChoiceState = Object.assign({}, state, {
 	      choiceArray: choiceArray
 	    });
 	    return removeChoiceState;
+	
+	    //if array.length > 1
+	    //else set array.length = 0;
+	
+	    // var choiceArray = state.choiceArray;
+	    // var choiceToRemove = action.choiceToRemove;
+	    // var choiceRemoved = choiceArray.splice(choiceToRemove, 1);
+	    // console.log(choiceToRemove, choiceRemoved, 'from stepDecrease');
+	    // console.log(choiceArray.indexOf(choiceToRemove), 'from stepDecrease');
+	    // var removeChoiceState = Object.assign({}, state, {
+	    //   choiceArray: choiceArray
+	    // });
+	    // return removeChoiceState;
 	  } else if (action.type === actions.STEP_INCREASE) {
 	    var nextStep = action.step + 1;
 	    var stepIncreaseState = Object.assign({}, state, {
@@ -30153,10 +30164,10 @@
 	};
 	
 	var REMOVE_USER_CHOICE = 'REMOVE_USER_CHOICE';
-	var removeUserChoice = function removeUserChoice(choiceToRemove) {
+	var removeUserChoice = function removeUserChoice(lastDesiredIndex) {
 	  return {
 	    type: REMOVE_USER_CHOICE,
-	    choiceToRemove: choiceToRemove
+	    lastDesiredIndex: lastDesiredIndex
 	  };
 	};
 	
@@ -30264,43 +30275,43 @@
 	var actions = __webpack_require__(355);
 	
 	var quizArray = [{
-	  category: 'seating',
+	  category: 'Seating',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'Individual seating - each person in a comfortable seat' }, { kessler: 'White cushioned folding chairs' }, { chapel: 'Cushioned bench chairs' }]
 	}, {
-	  category: 'music',
+	  category: 'Musical Accompaniment',
 	  statement: 'Hold',
-	  answersArr: [{ sanctuary: 'Choir and organ' }, { kessler: 'Quiet band' }, { chapel: 'No music' }]
+	  answersArr: [{ sanctuary: 'Choir and organ' }, { kessler: 'Quiet band' }, { chapel: 'Congregants singing - no instruments' }]
 	}, {
-	  category: 'honors',
+	  category: 'Torah Honors',
 	  statement: 'Hold',
-	  answersArr: [{ sanctuary: 'Pre-assigned to honor active members of our congregation' }, { kessler: 'Offered to groups = people will stand at their seats - abridged readings' }, { chapel: 'Given to those in attendance by ushers' }]
+	  answersArr: [{ sanctuary: 'Pre-assigned to honor active members of our congregation' }, { kessler: 'Offered to groups - people will stand at their seats - abridged readings' }, { chapel: 'Distributed to those in attendance by ushers' }]
 	}, {
-	  category: 'haftarah',
+	  category: 'Haftarah Length',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'first half' }, { kessler: 'Last 10 verses' }, { chapel: 'Full' }]
 	}, {
-	  category: 'shofar',
+	  category: 'Shofar Service',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'Al Reiner' }, { kessler: 'Noah Yontef Mathog' }, { chapel: 'Lance Reiser' }]
 	}, {
-	  category: 'length',
+	  category: 'Length of Rosh Hashannah Service',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: '4+ hours' }, { kessler: '2+ hours' }, { chapel: '3+ hours' }]
 	}, {
-	  category: 'liturgy',
+	  category: 'Liturgical Choices',
 	  statement: 'Hold',
-	  answersArr: [{ sanctuary: 'Full service including silent prayer and choral singing' }, { kessler: 'Abridged "highlights" service, few silent moments, no repetition' }, { chapel: 'Full service with repetition' }]
+	  answersArr: [{ sanctuary: 'Full service including silent prayer' }, { kessler: 'Abridged "highlights" service, few silent moments, no repetition' }, { chapel: 'Full service, full repetition of the Amidah' }]
 	}, {
-	  category: 'experience',
+	  category: 'Experience',
 	  statement: 'Hold',
-	  answersArr: [{ sanctuary: 'Love the crowds - want to see and be seen' }, { kessler: 'Want to feel comfortable with my family' }, { chapel: 'Crave intimacy so I can focus on prayer' }]
+	  answersArr: [{ sanctuary: 'I want to engage in the broad spectrum of our community' }, { kessler: 'I want to feel comfortable with my family' }, { chapel: 'I crave intimacy so I can focus on prayer' }]
 	}, {
 	  category: 'clergy',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'My High Holidays are not complete if I haven\'t heard Rabbi Rosen and Cantor Ness' }, { kessler: 'Rabbi Garber and Rabbi Sowalsky make a nice team and I appreciate the familiarity I feel in their service' }, { chapel: 'I\'d like to explore a lay-led service with Jason Kay and Susan Gold' }]
 	}, {
-	  category: 'words',
+	  category: 'The words that most resonate for me when it comes to the High Holidays are',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'Tradition, majesty, formality' }, { kessler: 'Family friendly, musical, soulful' }, { chapel: 'Intimate, intellectual, participatory' }]
 	}];
@@ -35897,10 +35908,12 @@
 	    key: 'handleBack',
 	    value: function handleBack() {
 	      var choiceArray = this.props.choiceArray;
-	      var choiceToRemove = choiceArray[choiceArray.length - 1];
+	      //choiceArray.length - 2 is correct bc it will be used in splice in the reducer.
+	      var lastDesiredIndex = choiceArray[choiceArray.length - 2];
 	      var currentStep = this.props.currentStep;
+	
+	      this.props.dispatch(actions.removeUserChoice(lastDesiredIndex));
 	      this.props.dispatch(actions.stepDecrease(currentStep));
-	      this.props.dispatch(actions.removeUserChoice(choiceToRemove));
 	    }
 	  }, {
 	    key: 'render',
@@ -38272,7 +38285,11 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var answers = this.props.answerChoices.map(function (answer, index) {
+	      var answerArray = this.props.answerChoices;
+	      var shuffledAnswers = answerArray.sort(function () {
+	        return 0.5 - Math.random();
+	      });
+	      var answers = shuffledAnswers.map(function (answer, index) {
 	        var choices = createFragment({
 	          sanctuary: answer.sanctuary,
 	          kessler: answer.kessler,

@@ -11,7 +11,7 @@ import QuestionAnswerContainer from './QuestionAnswerContainer';
 
 const quizArray = [
   {
-    category: 'seating',
+    category: 'Seating',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'Individual seating - each person in a comfortable seat'},
@@ -20,25 +20,25 @@ const quizArray = [
     ]
   },
   {
-    category: 'music',
+    category: 'Musical Accompaniment',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'Choir and organ'},
       {kessler: 'Quiet band'},
-      {chapel: 'No music'}
+      {chapel: 'Congregants singing - no instruments'}
     ]
   },
   {
-    category: 'honors',
+    category: 'Torah Honors',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'Pre-assigned to honor active members of our congregation'},
-      {kessler: 'Offered to groups = people will stand at their seats - abridged readings'},
-      {chapel: 'Given to those in attendance by ushers'}
+      {kessler: 'Offered to groups - people will stand at their seats - abridged readings'},
+      {chapel: 'Distributed to those in attendance by ushers'}
     ]
   },
   {
-    category: 'haftarah',
+    category: 'Haftarah Length',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'first half'},
@@ -47,7 +47,7 @@ const quizArray = [
     ]
   },
   {
-    category: 'shofar',
+    category: 'Shofar Service',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'Al Reiner'},
@@ -56,7 +56,7 @@ const quizArray = [
     ]
   },
   {
-    category: 'length',
+    category: 'Length of Rosh Hashannah Service',
     statement: 'Hold',
     answersArr: [
       {sanctuary: '4+ hours'},
@@ -65,21 +65,21 @@ const quizArray = [
     ]
   },
   {
-    category: 'liturgy',
+    category: 'Liturgical Choices',
     statement: 'Hold',
     answersArr: [
-      {sanctuary: 'Full service including silent prayer and choral singing'},
+      {sanctuary: 'Full service including silent prayer'},
       {kessler: 'Abridged "highlights" service, few silent moments, no repetition'},
-      {chapel: 'Full service with repetition'}
+      {chapel: 'Full service, full repetition of the Amidah'}
     ]
   },
   {
-    category: 'experience',
+    category: 'Experience',
     statement: 'Hold',
     answersArr: [
-      {sanctuary: 'Love the crowds - want to see and be seen'},
-      {kessler: 'Want to feel comfortable with my family'},
-      {chapel: 'Crave intimacy so I can focus on prayer'}
+      {sanctuary: 'I want to engage in the broad spectrum of our community'},
+      {kessler: 'I want to feel comfortable with my family'},
+      {chapel: 'I crave intimacy so I can focus on prayer'}
     ]
   },
   {
@@ -92,7 +92,7 @@ const quizArray = [
     ]
   },
   {
-    category: 'words',
+    category: 'The words that most resonate for me when it comes to the High Holidays are',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'Tradition, majesty, formality'},
