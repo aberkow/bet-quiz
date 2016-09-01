@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Result from './Result';
+
 import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
 import AnswerChoices from './AnswerChoices';
@@ -61,7 +63,7 @@ class QuestionAnswerContainer extends Component {
             showExpandableButton={false} />
 
           <CardText>
-            <h3>{ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : 'Report' }</h3>
+            <h3>{ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : <Result results={this.props.results} /> }</h3>
 
             <AnswerChoices
               answerChoices={ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [] }
@@ -86,3 +88,5 @@ class QuestionAnswerContainer extends Component {
 
 var Container = connect()(QuestionAnswerContainer);
 module.exports = Container;
+
+// 'Report'

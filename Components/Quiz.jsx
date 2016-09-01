@@ -119,7 +119,8 @@ class Quiz extends Component{
           choice={this.props.choice}
           choiceArray={this.props.choiceArray}
           currentStep={this.props.currentStep}
-          finished={this.props.isQuizFinished} />
+          finished={this.props.isQuizFinished}
+          results={this.props.counts} />
         <ProgressBar
           progress={this.props.currentStep}
           max={quizArray.length} />
@@ -133,10 +134,8 @@ let mapStateToProps = function(state, props){
   return {
     choice: state.choice,
     choiceArray: state.choiceArray,
+    counts: state.counts,
     currentStep: state.currentStep,
-    //currentQuestion: state.currentQuestion,
-    //quizLength: state.quizLength,
-    isQuizReset: state.isQuizReset,
     isQuizFinished: state.isQuizFinished,
     isDrawerOpen: state.isDrawerOpen
   }

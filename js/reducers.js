@@ -3,6 +3,7 @@ const actions = require('./actions');
 const initialQuizState = {
   choice: '',
   choiceArray: [],
+  counts: {},
   currentStep: 0,
   isQuizReset: false,
   isQuizFinished: false,
@@ -56,7 +57,15 @@ var quizReducer = function(state, action){
     }
   }
   else if (action.type === actions.FINISH_QUIZ) {
+    //check this against jsbin...
+    var choiceArray = state.choiceArray;
+    var counts = state.counts;
+    for (var i = 0; i < choiceArray.length; i++) {
+      var num = choiceArray[i];
+      counts[num] = (counts[num] || 0) + 1
+    }
     var finishQuizState = Object.assign({}, state, {
+      counts: counts,
       isQuizFinished: !action.isQuizFinished
     });
     return finishQuizState;
