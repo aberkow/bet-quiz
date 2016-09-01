@@ -17,11 +17,16 @@ class QuestionAnswerContainer extends Component {
     this.handleBack = this.handleBack.bind(this);
   }
   handleNext(){
+    var quizLength = this.props.length;
     var choiceToAdd = this.props.choice;
     var currentStep = this.props.currentStep;
-    if (currentStep <= 9){
+    if (currentStep <= quizLength - 1){
       this.props.dispatch(actions.stepIncrease(currentStep));
       this.props.dispatch(actions.addUserChoice(choiceToAdd));
+    }
+    else if (currentStep === quizLength) {
+      console.log('finished', 'from elseif');
+      this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
     }
     else {
       console.log('finished', 'from handleNext');
@@ -39,19 +44,21 @@ class QuestionAnswerContainer extends Component {
   }
   render(){
     var currentStep = this.props.currentStep;
+    var quizLength = this.props.length;
     return(
       <div>
         <Card>
           <CardHeader
-            title={this.props.questionAnswerInfo.category}
+            title={ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.category : 'Summary'
+            }
             actAsExcpander={false}
             showExpandableButton={false} />
 
           <CardText>
-            <h3>{this.props.questionAnswerInfo.statement}</h3>
+            <h3>{ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : 'Report' }</h3>
 
             <AnswerChoices
-              answerChoices={this.props.questionAnswerInfo.answersArr}
+              answerChoices={ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [] }
               currentStep={currentStep} />
           </CardText>
           <CardActions>
@@ -60,7 +67,8 @@ class QuestionAnswerContainer extends Component {
               disabled={currentStep === 0}
               onTouchTap={this.handleBack} />
             <RaisedButton
-              label={currentStep === this.props.length - 1 ? 'Finish' : 'Next'}
+              label={currentStep === quizLength - 1 || currentStep === quizLength ? 'Finish' : 'Next'}
+              disabled={currentStep === quizLength}
               primary={true}
               onTouchTap={this.handleNext} />
           </CardActions>

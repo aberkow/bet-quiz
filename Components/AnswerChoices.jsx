@@ -15,9 +15,7 @@ class AnswerChoices extends Component{
   userChoice(evt, value){
     var userChoice = value[0];
     this.props.dispatch(actions.userChoice(userChoice));
-    //console.log(value[0], 'from changeTest');
   }
-
   render(){
     var answerArray = this.props.answerChoices;
     var shuffledAnswerArray = answerArray.sort(function() {

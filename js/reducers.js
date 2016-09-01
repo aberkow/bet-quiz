@@ -23,6 +23,7 @@ var quizReducer = function(state, action){
   else if (action.type === actions.ADD_USER_CHOICE) {
     var choiceToAdd = action.choiceToAdd;
     var addChoiceState = Object.assign({}, state, {
+      choice: '',
       choiceArray: state.choiceArray.concat(choiceToAdd)
     });
     return addChoiceState;
@@ -59,7 +60,8 @@ var quizReducer = function(state, action){
   else if (action.type === actions.FINISH_QUIZ) {
     var finishQuizState = Object.assign({}, state, {
       isQuizFinished: !action.isQuizFinished
-    })
+    });
+    return finishQuizState;
   }
   else if (action.type === actions.RESET_QUIZ) {
     var quizResetState = Object.assign({}, state, {

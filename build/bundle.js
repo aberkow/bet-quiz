@@ -30079,6 +30079,7 @@
 	  } else if (action.type === actions.ADD_USER_CHOICE) {
 	    var choiceToAdd = action.choiceToAdd;
 	    var addChoiceState = Object.assign({}, state, {
+	      choice: '',
 	      choiceArray: state.choiceArray.concat(choiceToAdd)
 	    });
 	    return addChoiceState;
@@ -30111,6 +30112,7 @@
 	    var finishQuizState = Object.assign({}, state, {
 	      isQuizFinished: !action.isQuizFinished
 	    });
+	    return finishQuizState;
 	  } else if (action.type === actions.RESET_QUIZ) {
 	    var quizResetState = Object.assign({}, state, {
 	      isQuizReset: !action.isQuizReset
@@ -35880,11 +35882,15 @@
 	  _createClass(QuestionAnswerContainer, [{
 	    key: 'handleNext',
 	    value: function handleNext() {
+	      var quizLength = this.props.length;
 	      var choiceToAdd = this.props.choice;
 	      var currentStep = this.props.currentStep;
-	      if (currentStep <= 9) {
+	      if (currentStep <= quizLength - 1) {
 	        this.props.dispatch(actions.stepIncrease(currentStep));
 	        this.props.dispatch(actions.addUserChoice(choiceToAdd));
+	      } else if (currentStep === quizLength) {
+	        console.log('finished', 'from elseif');
+	        this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
 	      } else {
 	        console.log('finished', 'from handleNext');
 	        this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
@@ -35905,6 +35911,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var currentStep = this.props.currentStep;
+	      var quizLength = this.props.length;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -35912,7 +35919,7 @@
 	          _Card.Card,
 	          null,
 	          _react2.default.createElement(_Card.CardHeader, {
-	            title: this.props.questionAnswerInfo.category,
+	            title: currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.category : 'Summary',
 	            actAsExcpander: false,
 	            showExpandableButton: false }),
 	          _react2.default.createElement(
@@ -35921,10 +35928,10 @@
 	            _react2.default.createElement(
 	              'h3',
 	              null,
-	              this.props.questionAnswerInfo.statement
+	              currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : 'Report'
 	            ),
 	            _react2.default.createElement(_AnswerChoices2.default, {
-	              answerChoices: this.props.questionAnswerInfo.answersArr,
+	              answerChoices: currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [],
 	              currentStep: currentStep })
 	          ),
 	          _react2.default.createElement(
@@ -35935,7 +35942,8 @@
 	              disabled: currentStep === 0,
 	              onTouchTap: this.handleBack }),
 	            _react2.default.createElement(_RaisedButton2.default, {
-	              label: currentStep === this.props.length - 1 ? 'Finish' : 'Next',
+	              label: currentStep === quizLength - 1 || currentStep === quizLength ? 'Finish' : 'Next',
+	              disabled: currentStep === quizLength,
 	              primary: true,
 	              onTouchTap: this.handleNext })
 	          )
@@ -38266,7 +38274,6 @@
 	    value: function userChoice(evt, value) {
 	      var userChoice = value[0];
 	      this.props.dispatch(actions.userChoice(userChoice));
-	      //console.log(value[0], 'from changeTest');
 	    }
 	  }, {
 	    key: 'render',
