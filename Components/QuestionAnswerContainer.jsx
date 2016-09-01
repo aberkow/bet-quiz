@@ -20,27 +20,33 @@ class QuestionAnswerContainer extends Component {
     var quizLength = this.props.length;
     var choiceToAdd = this.props.choice;
     var currentStep = this.props.currentStep;
-    if (currentStep <= quizLength - 1){
+    var finishQuiz = this.props.finished;
+    if (currentStep <= quizLength - 2){
       this.props.dispatch(actions.stepIncrease(currentStep));
       this.props.dispatch(actions.addUserChoice(choiceToAdd));
     }
-    else if (currentStep === quizLength) {
-      console.log('finished', 'from elseif');
-      this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
-    }
-    else {
-      console.log('finished', 'from handleNext');
-      this.props.dispatch(actions.finishQuiz(this.props.isQuizFinished));
+    else if (currentStep === quizLength - 1) {
+      this.props.dispatch(actions.stepIncrease(currentStep));
+      this.props.dispatch(actions.addUserChoice(choiceToAdd));
+      this.props.dispatch(actions.finishQuiz(finishQuiz));
     }
   }
   handleBack(){
+    var quizLength = this.props.length;
     var choiceArray = this.props.choiceArray;
-    //choiceArray.length - 2 is correct bc it will be used in splice in the reducer.
     var choiceToRemove = choiceArray.length - 1;
     var currentStep = this.props.currentStep;
+    var finishQuizFalse = this.props.finished;
 
-    this.props.dispatch(actions.removeUserChoice(choiceToRemove));
-    this.props.dispatch(actions.stepDecrease(currentStep));
+    if (currentStep === quizLength) {
+      this.props.dispatch(actions.finishQuiz(finishQuizFalse));
+      this.props.dispatch(actions.removeUserChoice(choiceToRemove));
+      this.props.dispatch(actions.stepDecrease(currentStep));
+    }
+    else {
+      this.props.dispatch(actions.removeUserChoice(choiceToRemove));
+      this.props.dispatch(actions.stepDecrease(currentStep));
+    }
   }
   render(){
     var currentStep = this.props.currentStep;

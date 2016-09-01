@@ -4,8 +4,6 @@ const initialQuizState = {
   choice: '',
   choiceArray: [],
   currentStep: 0,
-  //currentQuestion: quizArray[initialQuizState.currentStep],
-  //quizLength: quizArray.length,
   isQuizReset: false,
   isQuizFinished: false,
   isDrawerOpen: false
