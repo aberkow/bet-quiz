@@ -54,13 +54,21 @@ const resetQuiz = function(isQuizReset){
   };
 };
 
+const TOGGLE_DIALOG = 'TOGGLE_DIALOG';
+const toggleDialog = function(isDialogOpen) {
+  return {
+    type: TOGGLE_DIALOG,
+    isDialogOpen: isDialogOpen
+  };
+};
+
 const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 const toggleDrawer = function(isDrawerOpen){
   return {
     type: TOGGLE_DRAWER,
     isDrawerOpen: isDrawerOpen
-  }
-}
+  };
+};
 exports.USER_CHOICE = USER_CHOICE;
 exports.userChoice = userChoice;
 
@@ -81,6 +89,9 @@ exports.finishQuiz = finishQuiz;
 
 exports.RESET_QUIZ = RESET_QUIZ;
 exports.resetQuiz = resetQuiz;
+
+exports.TOGGLE_DIALOG = TOGGLE_DIALOG;
+exports.toggleDialog = toggleDialog;
 
 exports.TOGGLE_DRAWER = TOGGLE_DRAWER;
 exports.toggleDrawer = toggleDrawer;

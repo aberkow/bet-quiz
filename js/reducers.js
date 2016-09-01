@@ -7,6 +7,7 @@ const initialQuizState = {
   currentStep: 0,
   isQuizReset: false,
   isQuizFinished: false,
+  isDialogOpen: false,
   isDrawerOpen: false
 };
 
@@ -57,7 +58,6 @@ var quizReducer = function(state, action){
     }
   }
   else if (action.type === actions.FINISH_QUIZ) {
-    //check this against jsbin...
     var choiceArray = state.choiceArray;
     var counts = state.counts;
     for (var i = 0; i < choiceArray.length; i++) {
@@ -75,6 +75,12 @@ var quizReducer = function(state, action){
       isQuizReset: !action.isQuizReset
     });
     return quizResetState;
+  }
+  else if (action.type === actions.TOGGLE_DIALOG) {
+    var dialogState = Object.assign({}, state, {
+      isDialogOpen: !action.isDialogOpen
+    });
+    return dialogState;
   }
   else if (action.type === actions.TOGGLE_DRAWER) {
     var drawerState = Object.assign({}, state, {

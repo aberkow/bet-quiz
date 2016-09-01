@@ -10,21 +10,28 @@ const actions = require('../js/actions');
 class Result extends Component {
   constructor(props){
     super(props);
-    this.dialogHandler = this.dialogHandler.bind(this);
+    this.dialogCloser = this.dialogCloser.bind(this);
+    this.quizReset = this.quizReset.bind(this);
   }
-  dialogHandler(){
-    //need an event handler here, redux action and reducer...
+  dialogCloser(){
+    var isDialogOpen = this.props.open;
+    console.log(isDialogOpen, 'from dialogCloser');
+    this.props.dispatch(actions.toggleDialog(isDialogOpen));
+  }
+  quizReset() {
+    var isQuizReset = this.props.isQuizReset;
+    this.props.dispatch(actions.resetQuiz(isQuizReset));
   }
   render() {
     const actions = [
       <RaisedButton
         label='Try again?'
         primary={true}
-        onTouchTap={this.dialogHandler} />,
+        onTouchTap={this.quizReset} />,
       <RaisedButton
         label='No thanks.'
-        primary={true}
-        onTouchTap={this.dialogHandler} />
+        primary={false}
+        onTouchTap={this.dialogCloser} />
       ];
 
     return (
@@ -33,7 +40,7 @@ class Result extends Component {
           title='Results'
           actions={actions}
           modal={false}
-          open={this.props.isDialogOpen}
+          open={this.props.open}
           onRequestClose={this.dialogHandler}>
           <p>Sanctuary: {this.props.results.sanctuary}</p>
           <p>Kessler Hall: {this.props.results.kessler}</p>
@@ -47,6 +54,7 @@ class Result extends Component {
 var Container = connect()(Result);
 module.exports = Container;
 
+// open={this.props.isDialogOpen}
 
 // <h1>These are results!</h1>
 // <p>Sanctuary: {this.props.results.sanctuary}</p>

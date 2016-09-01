@@ -106,9 +106,6 @@ class Quiz extends Component{
   constructor(props){
     super(props);
   }
-  test(){
-    console.log(quiz);
-  }
   render(){
     return(
       <div>
@@ -120,6 +117,7 @@ class Quiz extends Component{
           choiceArray={this.props.choiceArray}
           currentStep={this.props.currentStep}
           finished={this.props.isQuizFinished}
+          dialogToggle={this.props.isDialogOpen}
           results={this.props.counts} />
         <ProgressBar
           progress={this.props.currentStep}
@@ -136,10 +134,12 @@ let mapStateToProps = function(state, props){
     choiceArray: state.choiceArray,
     counts: state.counts,
     currentStep: state.currentStep,
+    isQuizReset: state.isQuizReset,
     isQuizFinished: state.isQuizFinished,
+    isDialogOpen: state.isDialogOpen,
     isDrawerOpen: state.isDrawerOpen
-  }
-}
+  };
+};
 
 let Container = connect(mapStateToProps)(Quiz);
 
