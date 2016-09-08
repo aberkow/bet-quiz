@@ -46,6 +46,14 @@ const finishQuiz = function(isQuizFinished){
   };
 };
 
+const DISPLAY_FINAL_MESSAGE = 'DISPLAY_FINAL_MESSAGE';
+const displayFinalMessage = function(totalScore) {
+  return {
+    type: DISPLAY_FINAL_MESSAGE,
+    totalScore: totalScore
+  }
+}
+
 const RESET_QUIZ = 'RESET_QUIZ';
 const resetQuiz = function(isQuizReset){
   return{
@@ -86,6 +94,9 @@ exports.stepDecrease = stepDecrease;
 
 exports.FINISH_QUIZ = FINISH_QUIZ;
 exports.finishQuiz = finishQuiz;
+
+exports.DISPLAY_FINAL_MESSAGE = DISPLAY_FINAL_MESSAGE;
+exports.displayFinalMessage = displayFinalMessage;
 
 exports.RESET_QUIZ = RESET_QUIZ;
 exports.resetQuiz = resetQuiz;

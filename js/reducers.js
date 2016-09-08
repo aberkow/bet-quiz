@@ -5,6 +5,8 @@ const initialQuizState = {
   choiceArray: [],
   counts: {},
   currentStep: 0,
+  totalScore: 0,
+  finalMessage: '',
   isQuizReset: false,
   isQuizFinished: false,
   isDialogOpen: false,
@@ -59,16 +61,47 @@ var quizReducer = function(state, action){
   }
   else if (action.type === actions.FINISH_QUIZ) {
     var choiceArray = state.choiceArray;
+    var totalScore = state.totalScore;
     var counts = state.counts;
+
     for (var i = 0; i < choiceArray.length; i++) {
-      var num = choiceArray[i];
-      counts[num] = (counts[num] || 0) + 1
+      var place = choiceArray[i];
+      counts[place] = (counts[place] || 0) + 1;
     }
+
+    totalScore = (counts.sanctuary * 1) + (counts.kessler * 2) + (counts.chapel * 3);
+
     var finishQuizState = Object.assign({}, state, {
       counts: counts,
+      totalScore: totalScore,
       isQuizFinished: !action.isQuizFinished
     });
     return finishQuizState;
+  }
+  else if (action.type === actions.DISPLAY_FINAL_MESSAGE) {
+    var totalScore = state.totalScore;
+    var finalMessage = state.finalMessage;
+    // var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
+
+    /*
+    something like this...
+    10 - just sanctuary
+    11 - 15 sanctuary/kessler
+    16 - 19 sanctuary/chapel
+    20 - just kessler
+    21 - 25 kessler/
+    26 - 29
+    30 - just chapel
+    */
+
+    // if (totalScore === 10 || totalScore <= 15) {
+    //   finalMessage = messageArray[0];
+    // }
+
+    var finalMessageState = Object.assign({}, state, {
+      finalMessage: finalMessage
+    });
+    return finalMessageState;
   }
   else if (action.type === actions.RESET_QUIZ) {
     var quizResetState = Object.assign({}, state, {

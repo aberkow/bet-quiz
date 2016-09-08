@@ -63,7 +63,7 @@ class QuestionAnswerContainer extends Component {
             showExpandableButton={false} />
 
           <CardText>
-            <h3>{ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : <Result results={this.props.results} open={this.props.dialogToggle} /> }</h3>
+            <h3>{ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : <Result results={this.props.results} open={this.props.dialogToggle} totalScore={this.props.totalScore} /> }</h3>
 
             <AnswerChoices
               answerChoices={ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [] }

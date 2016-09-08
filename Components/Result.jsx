@@ -18,6 +18,32 @@ class Result extends Component {
     console.log(isDialogOpen, 'from dialogCloser');
     this.props.dispatch(actions.toggleDialog(isDialogOpen));
   }
+  // finalMessage(){
+  //   var totalScore = this.props.totalScore;
+  //   var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
+  //
+  //
+  //   /*
+  //   something like this...
+  //   10 - just sanctuary
+  //   11 - 15 sanctuary/kessler
+  //   16 - 19 sanctuary/chapel
+  //   20 - just kessler
+  //   21 - 25 kessler/
+  //   26 - 29
+  //   30 - just chapel
+  //   */
+  //
+  //   if (totalScore >= 10 || totalScore <= 19) {
+  //     //messageArray[0]
+  //   }
+  //   else if (totalScore >= 20 || totalScore <= 29) {
+  //     //messageArray[3]
+  //   }
+  //   else if (totalScore === 30) {
+  //
+  //   }
+  // }
   quizReset() {
     var isQuizReset = this.props.isQuizReset;
     this.props.dispatch(actions.resetQuiz(isQuizReset));

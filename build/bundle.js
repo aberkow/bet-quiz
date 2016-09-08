@@ -30062,6 +30062,8 @@
 	  choiceArray: [],
 	  counts: {},
 	  currentStep: 0,
+	  totalScore: 0,
+	  finalMessage: '',
 	  isQuizReset: false,
 	  isQuizFinished: false,
 	  isDialogOpen: false,
@@ -30110,16 +30112,46 @@
 	    }
 	  } else if (action.type === actions.FINISH_QUIZ) {
 	    var choiceArray = state.choiceArray;
+	    var totalScore = state.totalScore;
 	    var counts = state.counts;
+	
 	    for (var i = 0; i < choiceArray.length; i++) {
-	      var num = choiceArray[i];
-	      counts[num] = (counts[num] || 0) + 1;
+	      var place = choiceArray[i];
+	      counts[place] = (counts[place] || 0) + 1;
 	    }
+	
+	    totalScore = counts.sanctuary * 1 + counts.kessler * 2 + counts.chapel * 3;
+	
 	    var finishQuizState = Object.assign({}, state, {
 	      counts: counts,
+	      totalScore: totalScore,
 	      isQuizFinished: !action.isQuizFinished
 	    });
 	    return finishQuizState;
+	  } else if (action.type === actions.DISPLAY_FINAL_MESSAGE) {
+	    var totalScore = state.totalScore;
+	    var finalMessage = state.finalMessage;
+	    // var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
+	
+	    /*
+	    something like this...
+	    10 - just sanctuary
+	    11 - 15 sanctuary/kessler
+	    16 - 19 sanctuary/chapel
+	    20 - just kessler
+	    21 - 25 kessler/
+	    26 - 29
+	    30 - just chapel
+	    */
+	
+	    // if (totalScore === 10 || totalScore <= 15) {
+	    //   finalMessage = messageArray[0];
+	    // }
+	
+	    var finalMessageState = Object.assign({}, state, {
+	      finalMessage: finalMessage
+	    });
+	    return finalMessageState;
 	  } else if (action.type === actions.RESET_QUIZ) {
 	    var quizResetState = Object.assign({}, state, {
 	      isQuizReset: !action.isQuizReset
@@ -30195,6 +30227,14 @@
 	  };
 	};
 	
+	var DISPLAY_FINAL_MESSAGE = 'DISPLAY_FINAL_MESSAGE';
+	var displayFinalMessage = function displayFinalMessage(totalScore) {
+	  return {
+	    type: DISPLAY_FINAL_MESSAGE,
+	    totalScore: totalScore
+	  };
+	};
+	
 	var RESET_QUIZ = 'RESET_QUIZ';
 	var resetQuiz = function resetQuiz(isQuizReset) {
 	  return {
@@ -30235,6 +30275,9 @@
 	
 	exports.FINISH_QUIZ = FINISH_QUIZ;
 	exports.finishQuiz = finishQuiz;
+	
+	exports.DISPLAY_FINAL_MESSAGE = DISPLAY_FINAL_MESSAGE;
+	exports.displayFinalMessage = displayFinalMessage;
 	
 	exports.RESET_QUIZ = RESET_QUIZ;
 	exports.resetQuiz = resetQuiz;
@@ -30351,7 +30394,8 @@
 	          currentStep: this.props.currentStep,
 	          finished: this.props.isQuizFinished,
 	          dialogToggle: this.props.isDialogOpen,
-	          results: this.props.counts }),
+	          results: this.props.counts,
+	          totalScore: this.props.totalScore }),
 	        _react2.default.createElement(_ProgressBar2.default, {
 	          progress: this.props.currentStep,
 	          max: quizArray.length })
@@ -30370,6 +30414,8 @@
 	    choiceArray: state.choiceArray,
 	    counts: state.counts,
 	    currentStep: state.currentStep,
+	    totalScore: state.totalScore,
+	    finalMessage: state.finalMessage,
 	    isQuizReset: state.isQuizReset,
 	    isQuizFinished: state.isQuizFinished,
 	    isDialogOpen: state.isDialogOpen,
@@ -35958,7 +36004,7 @@
 	            _react2.default.createElement(
 	              'h3',
 	              null,
-	              currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : _react2.default.createElement(_Result2.default, { results: this.props.results, open: this.props.dialogToggle })
+	              currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : _react2.default.createElement(_Result2.default, { results: this.props.results, open: this.props.dialogToggle, totalScore: this.props.totalScore })
 	            ),
 	            _react2.default.createElement(_AnswerChoices2.default, {
 	              answerChoices: currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [],
@@ -36045,6 +36091,33 @@
 	      console.log(isDialogOpen, 'from dialogCloser');
 	      this.props.dispatch(actions.toggleDialog(isDialogOpen));
 	    }
+	    // finalMessage(){
+	    //   var totalScore = this.props.totalScore;
+	    //   var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
+	    //
+	    //
+	    //   /*
+	    //   something like this...
+	    //   10 - just sanctuary
+	    //   11 - 15 sanctuary/kessler
+	    //   16 - 19 sanctuary/chapel
+	    //   20 - just kessler
+	    //   21 - 25 kessler/
+	    //   26 - 29
+	    //   30 - just chapel
+	    //   */
+	    //
+	    //   if (totalScore >= 10 || totalScore <= 19) {
+	    //     //messageArray[0]
+	    //   }
+	    //   else if (totalScore >= 20 || totalScore <= 29) {
+	    //     //messageArray[3]
+	    //   }
+	    //   else if (totalScore === 30) {
+	    //
+	    //   }
+	    // }
+	
 	  }, {
 	    key: 'quizReset',
 	    value: function quizReset() {
