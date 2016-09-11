@@ -83,7 +83,7 @@ const quizArray = [
     ]
   },
   {
-    category: 'clergy',
+    category: 'Clergy',
     statement: 'Hold',
     answersArr: [
       {sanctuary: 'My High Holidays are not complete if I haven\'t heard Rabbi Rosen and Cantor Ness'},
@@ -113,13 +113,15 @@ class Quiz extends Component{
         <QuestionAnswerContainer
           length={quizArray.length}
           questionAnswerInfo={quizArray[this.props.currentStep]}
+          counts={this.props.counts}
           choice={this.props.choice}
           choiceArray={this.props.choiceArray}
           currentStep={this.props.currentStep}
           finished={this.props.isQuizFinished}
           dialogToggle={this.props.isDialogOpen}
           results={this.props.counts}
-          totalScore={this.props.totalScore} />
+          totalScore={this.props.totalScore}
+          finalMessage={this.props.finalMessage} />
         <ProgressBar
           progress={this.props.currentStep}
           max={quizArray.length} />

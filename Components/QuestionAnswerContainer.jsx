@@ -23,6 +23,7 @@ class QuestionAnswerContainer extends Component {
     var choiceToAdd = this.props.choice;
     var currentStep = this.props.currentStep;
     var finishQuiz = this.props.finished;
+    var open = this.props.dialogToggle;
     if (currentStep <= quizLength - 2){
       this.props.dispatch(actions.stepIncrease(currentStep));
       this.props.dispatch(actions.addUserChoice(choiceToAdd));
@@ -31,6 +32,7 @@ class QuestionAnswerContainer extends Component {
       this.props.dispatch(actions.stepIncrease(currentStep));
       this.props.dispatch(actions.addUserChoice(choiceToAdd));
       this.props.dispatch(actions.finishQuiz(finishQuiz));
+      this.props.dispatch(actions.toggleDialog(open));
     }
   }
   handleBack(){
@@ -63,7 +65,14 @@ class QuestionAnswerContainer extends Component {
             showExpandableButton={false} />
 
           <CardText>
-            <h3>{ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : <Result results={this.props.results} open={this.props.dialogToggle} totalScore={this.props.totalScore} /> }</h3>
+            <h3>
+              { currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : <Result
+                results={this.props.results}
+                counts={this.props.counts}
+                open={this.props.dialogToggle}
+                totalScore={this.props.totalScore}
+                finalMessage={this.props.finalMessage} /> }
+            </h3>
 
             <AnswerChoices
               answerChoices={ currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [] }

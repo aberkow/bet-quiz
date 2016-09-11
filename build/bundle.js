@@ -30129,7 +30129,7 @@
 	    });
 	    return finishQuizState;
 	  } else if (action.type === actions.DISPLAY_FINAL_MESSAGE) {
-	    var totalScore = state.totalScore;
+	    //var totalScore = state.totalScore;
 	    var finalMessage = state.finalMessage;
 	    // var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
 	
@@ -30154,7 +30154,16 @@
 	    return finalMessageState;
 	  } else if (action.type === actions.RESET_QUIZ) {
 	    var quizResetState = Object.assign({}, state, {
-	      isQuizReset: !action.isQuizReset
+	      choice: '',
+	      choiceArray: [],
+	      counts: {},
+	      currentStep: 0,
+	      totalScore: 0,
+	      finalMessage: '',
+	      isQuizReset: !action.isQuizReset,
+	      isQuizFinished: false,
+	      isDialogOpen: false,
+	      isDrawerOpen: false
 	    });
 	    return quizResetState;
 	  } else if (action.type === actions.TOGGLE_DIALOG) {
@@ -30228,10 +30237,10 @@
 	};
 	
 	var DISPLAY_FINAL_MESSAGE = 'DISPLAY_FINAL_MESSAGE';
-	var displayFinalMessage = function displayFinalMessage(totalScore) {
+	var displayFinalMessage = function displayFinalMessage(finalMessage) {
 	  return {
 	    type: DISPLAY_FINAL_MESSAGE,
-	    totalScore: totalScore
+	    totalScore: finalMessage
 	  };
 	};
 	
@@ -30361,7 +30370,7 @@
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'I want to engage in the broad spectrum of our community' }, { kessler: 'I want to feel comfortable with my family' }, { chapel: 'I crave intimacy so I can focus on prayer' }]
 	}, {
-	  category: 'clergy',
+	  category: 'Clergy',
 	  statement: 'Hold',
 	  answersArr: [{ sanctuary: 'My High Holidays are not complete if I haven\'t heard Rabbi Rosen and Cantor Ness' }, { kessler: 'Rabbi Garber and Rabbi Sowalsky make a nice team and I appreciate the familiarity I feel in their service' }, { chapel: 'I\'d like to explore a lay-led service with Jason Kay and Susan Gold' }]
 	}, {
@@ -30389,13 +30398,15 @@
 	        _react2.default.createElement(_QuestionAnswerContainer2.default, {
 	          length: quizArray.length,
 	          questionAnswerInfo: quizArray[this.props.currentStep],
+	          counts: this.props.counts,
 	          choice: this.props.choice,
 	          choiceArray: this.props.choiceArray,
 	          currentStep: this.props.currentStep,
 	          finished: this.props.isQuizFinished,
 	          dialogToggle: this.props.isDialogOpen,
 	          results: this.props.counts,
-	          totalScore: this.props.totalScore }),
+	          totalScore: this.props.totalScore,
+	          finalMessage: this.props.finalMessage }),
 	        _react2.default.createElement(_ProgressBar2.default, {
 	          progress: this.props.currentStep,
 	          max: quizArray.length })
@@ -35956,6 +35967,7 @@
 	      var choiceToAdd = this.props.choice;
 	      var currentStep = this.props.currentStep;
 	      var finishQuiz = this.props.finished;
+	      var open = this.props.dialogToggle;
 	      if (currentStep <= quizLength - 2) {
 	        this.props.dispatch(actions.stepIncrease(currentStep));
 	        this.props.dispatch(actions.addUserChoice(choiceToAdd));
@@ -35963,6 +35975,7 @@
 	        this.props.dispatch(actions.stepIncrease(currentStep));
 	        this.props.dispatch(actions.addUserChoice(choiceToAdd));
 	        this.props.dispatch(actions.finishQuiz(finishQuiz));
+	        this.props.dispatch(actions.toggleDialog(open));
 	      }
 	    }
 	  }, {
@@ -36004,7 +36017,12 @@
 	            _react2.default.createElement(
 	              'h3',
 	              null,
-	              currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : _react2.default.createElement(_Result2.default, { results: this.props.results, open: this.props.dialogToggle, totalScore: this.props.totalScore })
+	              currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.statement : _react2.default.createElement(_Result2.default, {
+	                results: this.props.results,
+	                counts: this.props.counts,
+	                open: this.props.dialogToggle,
+	                totalScore: this.props.totalScore,
+	                finalMessage: this.props.finalMessage })
 	            ),
 	            _react2.default.createElement(_AnswerChoices2.default, {
 	              answerChoices: currentStep <= quizLength - 1 ? this.props.questionAnswerInfo.answersArr : [],
@@ -36080,6 +36098,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Result).call(this, props));
 	
 	    _this.dialogCloser = _this.dialogCloser.bind(_this);
+	    _this.finalMessage = _this.finalMessage.bind(_this);
 	    _this.quizReset = _this.quizReset.bind(_this);
 	    return _this;
 	  }
@@ -36091,33 +36110,42 @@
 	      console.log(isDialogOpen, 'from dialogCloser');
 	      this.props.dispatch(actions.toggleDialog(isDialogOpen));
 	    }
-	    // finalMessage(){
-	    //   var totalScore = this.props.totalScore;
-	    //   var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
-	    //
-	    //
-	    //   /*
-	    //   something like this...
-	    //   10 - just sanctuary
-	    //   11 - 15 sanctuary/kessler
-	    //   16 - 19 sanctuary/chapel
-	    //   20 - just kessler
-	    //   21 - 25 kessler/
-	    //   26 - 29
-	    //   30 - just chapel
-	    //   */
-	    //
-	    //   if (totalScore >= 10 || totalScore <= 19) {
-	    //     //messageArray[0]
-	    //   }
-	    //   else if (totalScore >= 20 || totalScore <= 29) {
-	    //     //messageArray[3]
-	    //   }
-	    //   else if (totalScore === 30) {
-	    //
-	    //   }
-	    // }
+	  }, {
+	    key: 'finalMessage',
+	    value: function finalMessage() {
+	      var totalScore = this.props.totalScore;
+	      var counts = this.props.counts;
+	      var finalMessage = this.props.finalMessage;
+	      var messageArray = ['sanctuary', 'kessler', 'chapel'];
 	
+	      //set the final message
+	      if (counts.sanctuary > counts.kessler && counts.sanctuary > counts.chapel) {
+	        console.log('sanctuary is greater than both');
+	        finalMessage = messageArray[0];
+	      } else if (counts.kessler > counts.sanctuary && counts.kessler > counts.chapel) {
+	        console.log('kessler is greater than both');
+	      } else if (counts.chapel > counts.sanctuary && counts.chapel > counts.kessler) {
+	        console.log('chapel is greater than both');
+	      } else if (counts.sanctuary >= 4 && counts.kessler >= 4) {
+	        console.log('go to both sanctuary and kessler');
+	      } else if (counts.sanctuary >= 4 && counts.chapel >= 4) {
+	        console.log('go to both sanctuary and chapel');
+	      } else if (counts.kessler >= 4 && counts.chapel >= 4) {
+	        console.log('go to both kessler and chapel');
+	      } else {
+	        console.log('try all three');
+	      }
+	
+	      //if the dialog is opened, display the final message
+	      if (this.props.open) {
+	        this.props.dispatch(actions.displayFinalMessage(finalMessage));
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      this.finalMessage();
+	    }
 	  }, {
 	    key: 'quizReset',
 	    value: function quizReset() {
@@ -36163,6 +36191,11 @@
 	            null,
 	            'Chapel: ',
 	            this.props.results.chapel
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.props.finalMessage
 	          )
 	        )
 	      );
@@ -36176,6 +36209,34 @@
 	
 	var Container = (0, _reactRedux.connect)()(Result);
 	module.exports = Container;
+	
+	// finalMessage(){
+	//   var totalScore = this.props.totalScore;
+	//   var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
+	//
+	//
+	//   /*
+	//   something like this...
+	//   10 - just sanctuary
+	//   11 - 15 sanctuary/kessler
+	//   16 - 19 sanctuary/chapel
+	//   20 - just kessler
+	//   21 - 25 kessler/
+	//   26 - 29
+	//   30 - just chapel
+	//   */
+	//
+	//   if (totalScore >= 10 || totalScore <= 19) {
+	//     //messageArray[0]
+	//   }
+	//   else if (totalScore >= 20 || totalScore <= 29) {
+	//     //messageArray[3]
+	//   }
+	//   else if (totalScore === 30) {
+	//
+	//   }
+	// }
+	
 	
 	// open={this.props.isDialogOpen}
 	

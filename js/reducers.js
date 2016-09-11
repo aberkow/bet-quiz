@@ -79,7 +79,7 @@ var quizReducer = function(state, action){
     return finishQuizState;
   }
   else if (action.type === actions.DISPLAY_FINAL_MESSAGE) {
-    var totalScore = state.totalScore;
+    //var totalScore = state.totalScore;
     var finalMessage = state.finalMessage;
     // var messageArray = ['sanctuary', 'sanctuary/chapel', 'sanctuary/kessler', 'chapel', 'chapel/sanctuary', 'chapel/kessler', 'kessler', 'kessler/chapel', 'kessler/sanctuary'];
 
@@ -105,7 +105,16 @@ var quizReducer = function(state, action){
   }
   else if (action.type === actions.RESET_QUIZ) {
     var quizResetState = Object.assign({}, state, {
-      isQuizReset: !action.isQuizReset
+      choice: '',
+      choiceArray: [],
+      counts: {},
+      currentStep: 0,
+      totalScore: 0,
+      finalMessage: '',
+      isQuizReset: !action.isQuizReset,
+      isQuizFinished: false,
+      isDialogOpen: false,
+      isDrawerOpen: false
     });
     return quizResetState;
   }

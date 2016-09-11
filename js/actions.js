@@ -47,10 +47,10 @@ const finishQuiz = function(isQuizFinished){
 };
 
 const DISPLAY_FINAL_MESSAGE = 'DISPLAY_FINAL_MESSAGE';
-const displayFinalMessage = function(totalScore) {
+const displayFinalMessage = function(finalMessage) {
   return {
     type: DISPLAY_FINAL_MESSAGE,
-    totalScore: totalScore
+    totalScore: finalMessage
   }
 }
 
